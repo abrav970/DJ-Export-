@@ -9,45 +9,88 @@
 */
 
 @theme {
-  /* Charcoal ground (logo background) */
-  --color-ink-950: #0c0b09;
-  --color-ink-900: #131110;
-  --color-ink-800: #1c1917;
-  --color-ink-700: #272320;
-  --color-ink-600: #37312c;
+  /*
+    EARTH × FOREST × EDITORIAL.
 
-  /* Bronze / copper (logo lettering) */
-  --color-bronze-100: #f4e3cd;
-  --color-bronze-200: #e7c9a4;
-  --color-bronze-300: #dbb27f;
-  --color-bronze-400: #cf9f66;
-  --color-bronze-500: #c08a4e;
-  --color-bronze-600: #a5713b;
-  --color-bronze-700: #82582d;
-  --color-bronze-800: #5d3f21;
+    The ramps are deliberately overlapping rather than a dark set and a light
+    set with nothing between them. Moss and olive exist so a section can travel
+    forest → moss → olive → ivory instead of flipping dark to light at a hard
+    seam, which is what made the old page read as separate blocks.
 
-  /* Warm neutrals */
-  --color-cream-50: #fbf8f3;
-  --color-cream-100: #f6f1e8;
-  --color-cream-200: #efe7d9;
-  --color-cream-300: #e3d7c4;
-  --color-cream-400: #cdbda5;
+    Every value below is verified against the surfaces it actually sits on:
+    ink-700 at 80% is 5.4:1 on ivory, champagne-600 is 5.3:1 on ivory, and
+    cream-200 at 78% is 7.2:1 on deep forest.
+  */
 
-  /* Plantation green — used sparingly */
-  --color-leaf-500: #4a6b52;
-  --color-leaf-600: #3b5642;
-  --color-leaf-700: #2c4034;
-  --color-leaf-800: #1f2f26;
+  /* Deep forest → forest. The dark end of the page. */
+  --color-ink-950: #10231b;
+  --color-ink-900: #142a20;
+  --color-ink-800: #1a3123;
+  --color-ink-700: #294434;
+  --color-ink-600: #3d5a47;
+
+  /* Moss and olive — the connective tissue between forest and ivory. */
+  --color-moss-700: #3f5240;
+  --color-moss-600: #4a5e46;
+  --color-moss-500: #566b4e;
+  --color-moss-400: #6e8462;
+  --color-olive-400: #a8ad7c;
+  --color-olive-300: #bdc095;
+  --color-olive-200: #d2d3b6;
+
+  /* Warm ivory → soft sand. The light end. */
+  --color-cream-50: #f3efe5;
+  --color-cream-100: #e6ddcb;
+  --color-cream-200: #ded4bf;
+  --color-cream-300: #c9bc9f;
+  --color-cream-400: #afa184;
+
+  /*
+    Antique champagne. Accent only — it appears on rules, eyebrows, the primary
+    control and nothing else. Gold as a dominant surface is the fastest way to
+    look loudly luxurious instead of quietly premium.
+  */
+  --color-bronze-100: #f0e6cf;
+  --color-bronze-200: #e3d3ad;
+  --color-bronze-300: #dcc79a;
+  --color-bronze-400: #c5a86a;
+  --color-bronze-500: #b08f4e;
+  --color-bronze-600: #977a3f;
+  /* 4.8:1 on soft sand, 5.6:1 on ivory. #7a5f2e measured 4.49 on sand. */
+  --color-bronze-700: #755a2b;
+  --color-bronze-800: #5d4722;
 
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-display: var(--font-cormorant), "Iowan Old Style", Georgia, "Times New Roman", serif;
 
-  --spacing-section: 7.5rem;
+  /*
+    Two section rhythms rather than one. Every band used to carry the same
+    120px at both ends, which made 23% of the page empty and gave every
+    section identical weight. Editorial bands use --spacing-section;
+    connective bands (trust strip, CTA) use the tight step.
+  */
+  --spacing-section: 5.5rem;
+  --spacing-section-tight: 4rem;
 
   --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
 
-  --shadow-lift: 0 24px 60px -32px rgb(12 11 9 / 0.55);
-  --shadow-panel: 0 40px 90px -50px rgb(12 11 9 / 0.7);
+  --shadow-lift: 0 24px 60px -32px rgb(16 35 27 / 0.5);
+  --shadow-panel: 0 40px 90px -50px rgb(16 35 27 / 0.62);
+
+  /*
+    Shape scale. Surfaces carry a restrained radius and controls a smaller one,
+    so the site reads as softened rather than rounded. Anything that needs to
+    stay optically square (hairline rules, spec tables) simply omits these.
+  */
+  --radius-control: 8px;
+  --radius-card: 14px;
+  --radius-tile: 18px;
+
+  /*
+    One elevation level only. Depth is carried by overlap and stagger; the
+    shadow exists to lift a light card off a light band, nothing more.
+  */
+  --shadow-soft: 0 18px 40px -28px rgb(16 35 27 / 0.38);
 }
 
 @layer base {
@@ -101,10 +144,53 @@
 @layer components {
   /* Small uppercase label used above every section heading */
   .eyebrow {
-    font-size: 0.6875rem;
-    letter-spacing: 0.28em;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    font-weight: 500;
+    font-weight: 600;
+  }
+
+  /*
+    Muted secondary text.
+
+    Use these instead of ad-hoc /35–/55 opacities. The old values measured as
+    low as 3.49:1 on light bands and 3.86:1 on dark at 12px — both below AA.
+    These two are verified against the band grounds they sit on:
+      .text-muted-dark   ≥ 8.8:1 on ink-800 and ink-950
+      .text-muted-light  ≥ 7.1:1 on cream-100 and cream-50
+  */
+  .text-muted-dark {
+    color: color-mix(in srgb, var(--color-cream-200) 78%, transparent);
+  }
+
+  .text-muted-light {
+    color: color-mix(in srgb, var(--color-ink-700) 80%, transparent);
+  }
+
+  /*
+    Faint dot field for light bands. Generated here rather than shipped as an
+    image so it scales and re-colours with the palette; it keeps large cream
+    areas from reading as empty without competing with the artwork.
+  */
+  .dot-field {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .dot-field::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image: radial-gradient(
+      circle at center,
+      color-mix(in oklab, var(--color-ink-900) 16%, transparent) 1px,
+      transparent 1.2px
+    );
+    background-size: 26px 26px;
+    /* Fade the field out at the band edges so it never meets a hard seam. */
+    mask-image: radial-gradient(120% 85% at 50% 45%, #000 35%, transparent 78%);
   }
 
   /* Hairline rules that carry the logo's thin circular ring language */
@@ -160,5 +246,62 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
+  }
+
+  /*
+    Scroll-linked motion is bound straight to a MotionValue, so Framer's own
+    reduced-motion handling never sees it as an animation. Neutralise it here
+    instead — the headline resolves to its finished state, the parallax layer
+    sits flush at inset-0 with no transform, and the process rail shows its
+    completed length.
+  */
+  [data-sweep-char] {
+    opacity: 1 !important;
+  }
+
+  [data-parallax-layer] {
+    transform: none !important;
+  }
+
+  [data-scroll-fade] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  [data-progress-line] {
+    transform: none !important;
+  }
+
+  /*
+    The label reveal opens from wide tracking, which is neither a transform nor
+    an opacity — Framer will not suppress it, and a reader who asked for no
+    motion should not watch type space itself out. Pin it to its set value.
+  */
+  [data-label-reveal] {
+    letter-spacing: 0.32em !important;
+  }
+
+  /*
+    The crossing's veil is scroll-driven, and its resting value is transparent
+    rather than opaque. It cannot use [data-scroll-fade], which forces opacity
+    to 1 — that would paint the closing photograph out entirely.
+  */
+  [data-scroll-veil] {
+    opacity: 0 !important;
+  }
+
+  /*
+    Entrance reveals lose their movement, not their existence.
+
+    Framer is configured to animate everything (see MotionProvider) precisely so
+    that this block can draw the line where it belongs: transform is pinned, so
+    no word rises out of a mask and no photograph scales; clip-path is pinned,
+    so a wipe that would otherwise leave the frame permanently clipped resolves
+    open. Opacity is deliberately absent — the cross-fade still runs, which is
+    what tells a reader the page is responding to them at all.
+  */
+  [data-reveal] {
+    transform: none !important;
+    clip-path: none !important;
   }
 }

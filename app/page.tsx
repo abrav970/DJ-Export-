@@ -1,20 +1,10 @@
 import type { Metadata } from "next";
 import { Media } from "@/components/media/Media";
-import { Compliance } from "@/components/sections/Compliance";
-import { Faq } from "@/components/sections/Faq";
-import { FinalCta } from "@/components/sections/FinalCta";
-import { GlobalSupply } from "@/components/sections/GlobalSupply";
+import { Crossing } from "@/components/sections/Crossing";
 import { Hero } from "@/components/sections/Hero";
-import { IntroSection } from "@/components/sections/IntroSection";
-import { ProductCategories } from "@/components/sections/ProductCategories";
-import { ProductFeature } from "@/components/sections/ProductFeature";
-import { QuoteSection } from "@/components/sections/QuoteSection";
-import { SourceStory } from "@/components/sections/SourceStory";
-import { Stats } from "@/components/sections/Stats";
-import { WhyChooseUs } from "@/components/sections/WhyChooseUs";
-import { faqs } from "@/data/company";
-import { getProductBySlug } from "@/data/products";
-import { faqJsonLd, JsonLd } from "@/lib/seo";
+import { Journey } from "@/components/sections/Journey";
+import { ProductStory } from "@/components/sections/ProductStory";
+import { QuoteCta } from "@/components/sections/QuoteCta";
 
 export const metadata: Metadata = {
   title: "Indian Coffee, Black Pepper & Cardamom Exporter",
@@ -23,38 +13,25 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
-const coffee = getProductBySlug("coffee")!;
-const pepper = getProductBySlug("black-pepper")!;
-const cardamom = getProductBySlug("cardamom")!;
-
+/**
+ * One passage, not five sections.
+ *
+ *   origin → product → estate → harvest → quality → packing → export →
+ *   crossing → enquiry
+ *
+ * Every boundary is a change of light rather than a cut: the hero lifts through
+ * moss into the product spreads, the spreads settle into sand, the journey
+ * travels sand → olive → moss → forest, and the crossing opens already at deep
+ * forest where the journey ended. There is no dark-to-light flip anywhere.
+ */
 export default function HomePage() {
   return (
     <>
-      <Hero
-        background={
-          <Media slot="hero-export" priority sizes="100vw" idPrefix="home-hero" />
-        }
-      />
-      <IntroSection />
-      <ProductCategories />
-
-      {/* One editorial feature per commodity, alternating tone and layout */}
-      <ProductFeature product={coffee} />
-      <ProductFeature product={pepper} tone="dark" reverse />
-      <ProductFeature product={cardamom} />
-
-      <WhyChooseUs />
-      <Compliance />
-      <SourceStory
-        background={<Media slot="plantation" sizes="100vw" idPrefix="source-story" />}
-      />
-      <GlobalSupply />
-      <Stats />
-      <QuoteSection />
-      <Faq />
-      <FinalCta />
-
-      <JsonLd data={faqJsonLd(faqs)} />
+      <Hero media={<Media slot="hero-export" priority sizes="100vw" tone="dark" />} />
+      <ProductStory />
+      <Journey />
+      <Crossing />
+      <QuoteCta />
     </>
   );
 }

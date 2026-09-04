@@ -7,24 +7,18 @@ export const RelatedProducts = ({ products }: { products: Product[] }) => {
   if (products.length === 0) return null;
 
   return (
-    <section className="relative overflow-hidden bg-ink-950 py-24 lg:py-28">
-      <div className="grain absolute inset-0" aria-hidden="true" />
-      <div className="container-x relative">
+    <section className="bg-cream-100 py-[var(--spacing-section-tight)]">
+      <div className="container-x">
         <SectionHeading
           eyebrow="Also from our range"
-          tone="dark"
           title="Other commodities we export"
           accentWords={["export"]}
         />
 
-        <StaggerGroup step={0.12} className="mt-14 grid gap-5 md:grid-cols-2">
+        <StaggerGroup className="mt-10 grid gap-6 md:grid-cols-2">
           {products.map((product, index) => (
-            <StaggerItem key={product.slug}>
-              <ProductCard
-                product={product}
-                index={index}
-                className="h-[24rem] w-full sm:h-[28rem]"
-              />
+            <StaggerItem key={product.slug} className="h-full">
+              <ProductCard product={product} index={index} />
             </StaggerItem>
           ))}
         </StaggerGroup>

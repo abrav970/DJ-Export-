@@ -2,25 +2,38 @@ import Link from "next/link";
 import type { ComponentProps, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-type Variant = "primary" | "outline" | "ghost" | "light";
+type Variant = "primary" | "outline" | "ghost" | "ghostDark" | "light";
 type Size = "md" | "lg";
 
+/**
+ * Filled control carrying a contrasting hairline border and a trailing arrow
+ * that sits inside the button rather than after it — hence the asymmetric
+ * padding, which reserves the trailing space the arrow moves into on hover.
+ */
 const base =
-  "group relative inline-flex items-center justify-center gap-2.5 font-medium tracking-wide transition-[background-color,color,border-color,transform] duration-500 ease-[var(--ease-premium)] disabled:cursor-not-allowed disabled:opacity-60";
+  "group relative inline-flex items-center justify-between gap-6 rounded-[var(--radius-control)] font-medium tracking-wide transition-[background-color,color,border-color,transform] duration-500 ease-[var(--ease-premium)] disabled:cursor-not-allowed disabled:opacity-60";
 
 const sizes: Record<Size, string> = {
-  md: "px-6 py-3 text-[0.8125rem]",
-  lg: "px-8 py-4 text-sm",
+  md: "py-3 ps-5 pe-4 text-[0.8125rem]",
+  lg: "py-4 ps-7 pe-5 text-sm",
+};
+
+/** Applied only when the button has no trailing arrow to balance. */
+const evenPadding: Record<Size, string> = {
+  md: "px-6 justify-center gap-2.5",
+  lg: "px-8 justify-center gap-2.5",
 };
 
 const variants: Record<Variant, string> = {
   primary:
-    "bg-bronze-500 text-ink-950 hover:bg-bronze-400 active:translate-y-px",
+    "bg-bronze-500 text-ink-950 border-[1.5px] border-bronze-200/70 hover:bg-bronze-400 hover:border-cream-50 active:translate-y-px",
   outline:
-    "border border-bronze-500/45 text-bronze-200 hover:border-bronze-400 hover:bg-bronze-500/10",
+    "border-[1.5px] border-bronze-500/45 text-bronze-200 hover:border-bronze-300 hover:bg-bronze-500/10",
   light:
-    "border border-ink-900/20 text-ink-900 hover:border-ink-900/45 hover:bg-ink-900/5",
-  ghost: "text-ink-900 hover:text-bronze-600",
+    "border-[1.5px] border-ink-900/20 text-ink-900 hover:border-ink-900/45 hover:bg-ink-900/5",
+  ghost: "text-ink-900 hover:text-bronze-700",
+  /* Quiet secondary on dark: the primary control should not have a rival. */
+  ghostDark: "text-cream-200 hover:text-bronze-300",
 };
 
 const Arrow = () => (
@@ -52,7 +65,15 @@ export const Button = ({
   className,
   ...props
 }: ButtonContentProps & ComponentProps<"button">) => (
-  <button className={cn(base, sizes[size], variants[variant], className)} {...props}>
+  <button
+    className={cn(
+      base,
+      withArrow ? sizes[size] : evenPadding[size],
+      variants[variant],
+      className,
+    )}
+    {...props}
+  >
     {children}
     {withArrow ? <Arrow /> : null}
   </button>
@@ -67,7 +88,16 @@ export const ButtonLink = ({
   className,
   ...props
 }: ButtonContentProps & ComponentProps<typeof Link>) => (
-  <Link href={href} className={cn(base, sizes[size], variants[variant], className)} {...props}>
+  <Link
+    href={href}
+    className={cn(
+      base,
+      withArrow ? sizes[size] : evenPadding[size],
+      variants[variant],
+      className,
+    )}
+    {...props}
+  >
     {children}
     {withArrow ? <Arrow /> : null}
   </Link>

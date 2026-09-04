@@ -43,7 +43,7 @@ export const ProductSpecification = ({
             <dt
               className={cn(
                 "text-[0.6875rem] tracking-[0.22em] uppercase",
-                tone === "dark" ? "text-bronze-300/85" : "text-bronze-700",
+                tone === "dark" ? "text-bronze-300" : "text-bronze-700",
               )}
             >
               {spec.label}
@@ -51,7 +51,7 @@ export const ProductSpecification = ({
             <dd
               className={cn(
                 "text-[0.9375rem] sm:text-right",
-                tone === "dark" ? "text-cream-100/90" : "text-ink-800",
+                tone === "dark" ? "text-cream-100" : "text-ink-800",
               )}
             >
               {spec.value}
@@ -65,7 +65,7 @@ export const ProductSpecification = ({
       <p
         className={cn(
           "mt-5 text-xs leading-relaxed",
-          tone === "dark" ? "text-cream-200/45" : "text-ink-700/55",
+          tone === "dark" ? "text-muted-dark" : "text-muted-light",
         )}
       >
         Values are indicative of standard Indian trade grades. Exact figures are

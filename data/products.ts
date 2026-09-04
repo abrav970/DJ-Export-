@@ -19,8 +19,11 @@ export type MediaSlot =
   | "peppercorns"
   | "cardamom-plantation"
   | "cardamom-pods"
+  | "harvest"
+  | "inspection"
   | "packing"
   | "logistics"
+  | "port"
   | "landscape";
 
 export type Specification = {
@@ -131,7 +134,7 @@ export const products: Product[] = [
       "Garbled and ungarbled Indian black pepper, cleaned and graded to a defined density, moisture and cleanliness specification.",
     story: [
       "Black pepper has moved out of India's Malabar coast for centuries, and the vines still climb the same shade trees on the Western Ghats. Bold berries, high density and a sharp, resinous aroma are what set the origin apart.",
-      "We supply garbled and ungarbled pepper cleaned to an agreed specification, with density, moisture and extraneous matter confirmed lot by lot for food companies, spice processors and distributors.",
+      "We supply Tellicherry graded pepper cleaned to an agreed specification, with density, moisture and extraneous matter confirmed lot by lot for food companies, spice processors and distributors.",
     ],
     origin: "Kerala and Karnataka, India",
     originNote:
@@ -139,18 +142,25 @@ export const products: Product[] = [
     harvest: "December – March",
     specifications: [
       { label: "Origin", value: "India — Malabar / Western Ghats belt" },
-      { label: "Grade", value: "Garbled and ungarbled — see grades below" },
-      { label: "Density", value: "500 – 600 g/l depending on grade" },
+      { label: "Grade", value: "Tellicherry garbled — see grades below" },
+      { label: "Density", value: "530 – 550 g/l, per grade selected" },
       { label: "Moisture", value: "Max. 12%" },
       { label: "Extraneous matter", value: "Cleaned to the agreed maximum" },
       { label: "Light berries", value: "Limited per grade specification" },
       { label: "Packaging", value: "25 kg / 50 kg food-grade bags" },
     ],
+    /*
+      CONFIRM: the detail lines below decode only what each designation itself
+      states — TGEB = Tellicherry Garbled Extra Bold, TGSEB = Tellicherry
+      Garbled Special Extra Bold, and the GL figure is the bulk density in g/l.
+      Bold count, light-berry limits and cleanliness figures are deliberately
+      absent because they were not supplied. Add them here once confirmed.
+    */
     grades: [
-      { name: "MG1 (Malabar Garbled Grade 1)", detail: "Garbled, bold berries, high density" },
-      { name: "MG1 Special / Bold", detail: "Higher density selection, 550 g/l and above" },
-      { name: "MUG1 (Malabar Ungarbled Grade 1)", detail: "Ungarbled preparation for processors" },
-      { name: "Light / bulk grades", detail: "Lower density lots for grinding and extraction" },
+      { name: "TGEB GL-530", detail: "Tellicherry Garbled Extra Bold — 530 g/l bulk density" },
+      { name: "TGEB GL-540", detail: "Tellicherry Garbled Extra Bold — 540 g/l bulk density" },
+      { name: "TGEB 550 GL", detail: "Tellicherry Garbled Extra Bold — 550 g/l bulk density" },
+      { name: "TGSEB 540 GL", detail: "Tellicherry Garbled Special Extra Bold — 540 g/l bulk density" },
     ],
     packaging: [
       { format: "25 kg PP / laminated bags", detail: "Food-grade, stitched and marked" },
@@ -158,7 +168,7 @@ export const products: Product[] = [
       { format: "Buyer-marked packing", detail: "Your marks, labels and lot references applied" },
     ],
     quality: [
-      "Machine cleaned, de-stoned and gravity separated",
+      "Machine cleaned, de-stoned, gravity separated and garbled",
       "Density and moisture verified before packing",
       "Samples drawn for buyer approval prior to shipment",
       "Packed in food-grade material suited to the transit route",
@@ -235,7 +245,3 @@ export const productOptions = products.map((product) => ({
   label: product.shortName,
 }));
 
-/** Distinct packing formats across the catalogue — used by the stats band. */
-export const packagingFormats = Array.from(
-  new Set(products.flatMap((product) => product.packaging.map((p) => p.format))),
-);

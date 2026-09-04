@@ -2,7 +2,7 @@
  * Central company data.
  *
  * Everything a non-developer is likely to want to change lives here: contact
- * details, licence references, statistics, trust points and FAQ copy.
+ * details, licence references, trust points and FAQ copy.
  * Values marked PLACEHOLDER must be replaced with the client's real details
  * before the site goes live — nothing here is invented as fact.
  */
@@ -10,7 +10,6 @@
 export type NavLink = {
   label: string;
   href: string;
-  children?: NavLink[];
 };
 
 export const company = {
@@ -59,38 +58,6 @@ export const company = {
     },
   ],
 
-  /**
-   * Counters shown in the statistics band. `value` figures that describe the
-   * catalogue are derived from data/products.ts. Anything describing the
-   * business itself is a PLACEHOLDER — confirm before publishing.
-   */
-  stats: [
-    {
-      value: 3,
-      suffix: "",
-      label: "Commodity lines exported",
-      note: "Coffee, black pepper and cardamom",
-    },
-    {
-      value: 14,
-      suffix: "+",
-      label: "Grades available across products",
-      note: "Listed on the individual product pages",
-    },
-    {
-      value: 6,
-      suffix: "",
-      label: "Standard packing formats",
-      note: "Excludes buyer-marked variants; alternative packing on request",
-    },
-    {
-      value: 1,
-      suffix: "",
-      label: "Business day enquiry response target",
-      note: "Our service commitment, not a guarantee",
-    },
-  ],
-
   socials: [] as { label: string; href: string }[], // PLACEHOLDER — add profiles when available
 } as const;
 
@@ -101,18 +68,15 @@ export const siteConfig = {
   locale: "en_IN",
 } as const;
 
+/**
+ * Primary navigation. Deliberately three items plus the standing CTA — the
+ * logo carries the route home, so "Home" does not need a slot, and the product
+ * dropdown was removed because the products index is one click away.
+ */
 export const navigation: NavLink[] = [
   { label: "Home", href: "/" },
+  { label: "Products", href: "/products" },
   { label: "About", href: "/about" },
-  {
-    label: "Products",
-    href: "/products",
-    children: [
-      { label: "Coffee", href: "/products/coffee" },
-      { label: "Black Pepper", href: "/products/black-pepper" },
-      { label: "Cardamom", href: "/products/cardamom" },
-    ],
-  },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -122,42 +86,30 @@ export type TrustPoint = {
   icon: "leaf" | "origin" | "document" | "package" | "handshake" | "message";
 };
 
+/**
+ * Credibility strip shown once, directly under the hero. One line each — this
+ * is a scanning aid, not a features section.
+ */
 export const trustPoints: TrustPoint[] = [
+  {
+    icon: "origin",
+    title: "Premium Indian origin",
+    description: "Sourced from India's established coffee and spice growing belts.",
+  },
   {
     icon: "leaf",
     title: "Quality-focused sourcing",
-    description:
-      "We buy against an agreed specification and check every lot for grade, moisture and cleanliness before it is committed to a shipment.",
-  },
-  {
-    icon: "origin",
-    title: "Indian agricultural origin",
-    description:
-      "Our commodities are sourced from India's established coffee and spice growing belts, close to the estates and curing houses that produce them.",
+    description: "Bought against a written specification and checked lot by lot.",
   },
   {
     icon: "document",
-    title: "Export documentation support",
-    description:
-      "We prepare the commercial and shipping paperwork required for the consignment and coordinate with your clearing agent.",
-  },
-  {
-    icon: "package",
-    title: "Professional packaging",
-    description:
-      "Food-grade jute, PP or vacuum packing selected for the commodity and the transit route, with buyer marks applied as instructed.",
-  },
-  {
-    icon: "handshake",
-    title: "B2B supply focus",
-    description:
-      "We work exclusively with importers, distributors, roasters and processors — from trial containers to repeat contract volumes.",
+    title: "Export-ready supply",
+    description: "Food-grade packing and shipping documentation prepared for the route.",
   },
   {
     icon: "message",
     title: "Direct communication",
-    description:
-      "You deal with the people handling your order. Clear updates on sampling, packing and dispatch, by email or WhatsApp.",
+    description: "You deal with the people handling your order, start to finish.",
   },
 ];
 
@@ -167,34 +119,29 @@ export type ProcessStep = {
   description: string;
 };
 
-export const sourceStory: ProcessStep[] = [
+/** Source → Inspect → Prepare → Export. */
+export const processSteps: ProcessStep[] = [
   {
     step: "01",
-    title: "Growing region",
+    title: "Source",
     description:
-      "Coffee, pepper and cardamom from India's southern hill districts, where altitude, monsoon and soil shape the cup and the aroma.",
+      "Lots selected at estate and curing-house level against the grade and specification agreed with the buyer.",
   },
   {
     step: "02",
-    title: "Careful sourcing",
+    title: "Inspect",
     description:
-      "Lots are selected at estate and curing-house level against the grade and specification agreed with the buyer.",
+      "Cleaning, grading and moisture checks, with samples shared for approval before a lot is confirmed.",
   },
   {
     step: "03",
-    title: "Quality focus",
-    description:
-      "Cleaning, grading and moisture checks, with samples shared for approval before a lot is confirmed for shipment.",
-  },
-  {
-    step: "04",
-    title: "Packing",
+    title: "Prepare",
     description:
       "Food-grade packing chosen for the commodity and the voyage, palletised and marked to your instructions.",
   },
   {
-    step: "05",
-    title: "Global delivery",
+    step: "04",
+    title: "Export",
     description:
       "Documentation prepared, container stuffed and dispatched, with shipment details shared through to arrival.",
   },
@@ -207,19 +154,9 @@ export type BuyerType = {
 
 export const buyerTypes: BuyerType[] = [
   {
-    title: "Importers",
+    title: "Importers & distributors",
     description:
-      "Container-load supply of coffee and spices against contract specifications and agreed shipment schedules.",
-  },
-  {
-    title: "Distributors",
-    description:
-      "Consistent grades and packing formats that fit an existing distribution range and repeat ordering cycle.",
-  },
-  {
-    title: "Wholesalers",
-    description:
-      "Bulk lots in standard export packing, with buyer marks and documentation prepared for onward sale.",
+      "Container-load supply against contract specifications and agreed shipment schedules.",
   },
   {
     title: "Coffee roasters",
@@ -230,6 +167,11 @@ export const buyerTypes: BuyerType[] = [
     title: "Food & spice companies",
     description:
       "Black pepper and cardamom to a defined density, moisture and cleanliness specification for processing and packing.",
+  },
+  {
+    title: "Wholesalers",
+    description:
+      "Bulk lots in standard export packing, with buyer marks and documentation prepared for onward sale.",
   },
 ];
 

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Inter } from "next/font/google";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { MotionProvider } from "@/components/motion/MotionProvider";
 import { company, siteConfig } from "@/data/company";
 import { JsonLd, organizationJsonLd } from "@/lib/seo";
 import "./globals.css";
@@ -73,7 +74,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0c0b09",
+  themeColor: "#10231b",
   colorScheme: "light",
 };
 
@@ -83,15 +84,29 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${cormorant.variable}`}>
       <body className="min-h-screen antialiased">
+        {/*
+          Every reveal is server-rendered in its hidden state — opacity 0, a
+          clipped frame, a word translated out of its mask — and is brought back
+          by JavaScript. With scripting off that is a blank page rather than an
+          unanimated one, so the same end states the reduced-motion block pins
+          are pinned here too. It costs one inert style element.
+        */}
+        <noscript>
+          <style>{`[data-reveal]{opacity:1!important;transform:none!important;clip-path:none!important}
+[data-label-reveal]{letter-spacing:0.32em!important}
+[data-scroll-veil]{opacity:0!important}`}</style>
+        </noscript>
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:bg-bronze-500 focus:px-5 focus:py-3 focus:text-sm focus:font-medium focus:text-ink-950"
         >
           Skip to content
         </a>
-        <Header />
-        <main id="main">{children}</main>
-        <Footer />
+        <MotionProvider>
+          <Header />
+          <main id="main">{children}</main>
+          <Footer />
+        </MotionProvider>
         <JsonLd data={organizationJsonLd()} />
       </body>
     </html>

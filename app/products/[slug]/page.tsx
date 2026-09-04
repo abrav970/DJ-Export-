@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { FinalCta } from "@/components/sections/FinalCta";
+import { QuoteCta } from "@/components/sections/QuoteCta";
 import { PageHero } from "@/components/sections/PageHero";
 import { ProductDetail } from "@/components/product/ProductDetail";
 import { RelatedProducts } from "@/components/product/RelatedProducts";
@@ -45,7 +45,6 @@ export default async function ProductPage({ params }: PageProps) {
       <PageHero
         eyebrow={`${product.category} · India`}
         title={product.name}
-        accentWords={["Coffee", "Pepper", "Cardamom"]}
         description={product.description}
         slot={product.media.hero}
         crumbs={[
@@ -61,7 +60,10 @@ export default async function ProductPage({ params }: PageProps) {
 
       <ProductDetail product={product} />
       <RelatedProducts products={getRelatedProducts(product.slug)} />
-      <FinalCta />
+      <QuoteCta
+        title={"Looking for " + product.shortName.toLowerCase() + " in commercial quantities?"}
+        accentWords={["quantities?"]}
+      />
 
       <JsonLd data={productJsonLd(product)} />
     </>

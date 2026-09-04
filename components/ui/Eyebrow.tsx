@@ -12,7 +12,7 @@ export const Eyebrow = ({
 }) => (
   <div className={cn("flex items-center gap-4", className)}>
     <span className="h-px w-8 bg-bronze-500/60" />
-    <span className={cn("eyebrow", tone === "dark" ? "text-bronze-300" : "text-bronze-600")}>
+    <span className={cn("eyebrow", tone === "dark" ? "text-bronze-300" : "text-bronze-700")}>
       {children}
     </span>
   </div>

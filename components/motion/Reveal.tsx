@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import type { ReactNode } from "react";
 import type { ElementType } from "react";
 import { baseTransition, viewportOnce } from "@/lib/motion";
@@ -16,7 +16,10 @@ type RevealProps = {
 
 /**
  * The site's default scroll reveal: opacity plus a short upward translate,
- * fired once when the element enters the viewport. Honours reduced motion.
+ * fired once when the element enters the viewport.
+ *
+ * Reduced motion is handled by <MotionProvider> rather than by branching here —
+ * see the note in that file for why reading it during render breaks hydration.
  */
 export const Reveal = ({
   children,
@@ -25,13 +28,13 @@ export const Reveal = ({
   y = 24,
   as = "div",
 }: RevealProps) => {
-  const reduce = useReducedMotion();
   const MotionTag = motion[as as "div"];
 
   return (
     <MotionTag
+      data-reveal
       className={className}
-      initial={reduce ? { opacity: 0 } : { opacity: 0, y }}
+      initial={{ opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={viewportOnce}
       transition={{ ...baseTransition, delay }}

@@ -55,9 +55,6 @@ export const MobileMenu = ({ open, onClose, pathname }: MobileMenuProps) => {
     };
   }, [open, onClose]);
 
-  const links = navigation.flatMap((item) =>
-    item.children ? [item, ...item.children] : [item],
-  );
 
   return (
     <AnimatePresence>
@@ -74,12 +71,12 @@ export const MobileMenu = ({ open, onClose, pathname }: MobileMenuProps) => {
           exit={{ opacity: 0, y: reduce ? 0 : -12 }}
           transition={{ duration: 0.4, ease: easePremium }}
         >
-          <div className="h-[var(--header-h,5.5rem)] shrink-0" />
+          <div className="h-[var(--header-h,5rem)] shrink-0" />
           <nav className="container-x flex-1 overflow-y-auto pb-12">
             <ul className="divide-y divide-cream-100/8 border-t border-cream-100/8">
-              {links.map((link, index) => {
-                const isChild = navigation.every((item) => item.href !== link.href);
-                const active = pathname === link.href;
+              {navigation.map((link, index) => {
+                const active =
+                  pathname === link.href || pathname.startsWith(`${link.href}/`);
                 return (
                   <motion.li
                     key={link.href}
@@ -96,11 +93,9 @@ export const MobileMenu = ({ open, onClose, pathname }: MobileMenuProps) => {
                       prefetch={false}
                       onClick={onClose}
                       aria-current={active ? "page" : undefined}
-                      className={`flex items-baseline justify-between py-4 font-display transition-colors duration-300 ${
-                        isChild
-                          ? "pl-6 text-xl text-cream-200/70"
-                          : "text-3xl text-cream-100"
-                      } ${active ? "text-bronze-300" : "hover:text-bronze-300"}`}
+                      className={`flex items-baseline justify-between py-4 font-display text-3xl text-cream-100 transition-colors duration-300 ${
+                        active ? "text-bronze-300" : "hover:text-bronze-300"
+                      }`}
                     >
                       {link.label}
                       <span className="text-[0.6rem] tracking-[0.3em] text-bronze-500/60 uppercase">
@@ -116,11 +111,11 @@ export const MobileMenu = ({ open, onClose, pathname }: MobileMenuProps) => {
               <Link
                 href="/contact#quote"
                 onClick={onClose}
-                className="flex w-full items-center justify-center bg-bronze-500 px-6 py-4 text-sm font-medium tracking-wide text-ink-950"
+                className="flex w-full items-center justify-center rounded-[var(--radius-control)] bg-bronze-500 px-6 py-4 text-sm font-medium tracking-wide text-ink-950"
               >
                 Request a Quote
               </Link>
-              <div className="space-y-1 pt-4 text-sm text-cream-200/60">
+              <div className="space-y-1 pt-4 text-sm text-muted-dark">
                 <a href={`mailto:${company.contact.email}`} className="block hover:text-bronze-300">
                   {company.contact.email}
                 </a>

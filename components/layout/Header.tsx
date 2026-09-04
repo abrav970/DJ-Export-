@@ -5,19 +5,22 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { navigation } from "@/data/company";
+import { easePremium } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { Logo } from "./Logo";
 import { MobileMenu } from "./MobileMenu";
 
 /**
- * Sticky header. Transparent over the hero, then transitions to a dark glass
- * bar once the page scrolls. The mark and navigation always sit on a dark
- * surface, matching the logo artwork.
+ * Sticky header. Transparent over the hero, then a dark glass bar once the page
+ * scrolls, losing a little height as it goes.
+ *
+ * Three links and one CTA. The product dropdown was removed — the products
+ * index is one click away and the hover menu was the only piece of state in
+ * the header that could trap keyboard focus.
  */
 export const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [productsOpen, setProductsOpen] = useState(false);
   const pathname = usePathname();
   const { scrollY } = useScroll();
 
@@ -25,25 +28,38 @@ export const Header = () => {
     setScrolled(latest > 24);
   });
 
-  // Close any open menu when the route changes, adjusted during render rather
-  // than in an effect so there is no flash of the previous state.
+  // Close the menu when the route changes, adjusted during render rather than
+  // in an effect so there is no flash of the previous state.
   const [lastPathname, setLastPathname] = useState(pathname);
   if (lastPathname !== pathname) {
     setLastPathname(pathname);
     setMenuOpen(false);
-    setProductsOpen(false);
   }
 
   return (
     <>
       <motion.header
+        /*
+          data-reveal, because the bar starts at opacity 0. Without it a reader
+          who asks for reduced motion gets a header that never finishes
+          arriving — the same failure the reveal primitives are tagged against.
+        */
+        data-reveal
         className={cn(
           "fixed inset-x-0 top-0 z-50 transition-[background-color,backdrop-filter,border-color,padding] duration-500 ease-[var(--ease-premium)]",
           scrolled || menuOpen
             ? "border-b border-cream-100/8 bg-ink-950/85 py-3 backdrop-blur-xl"
-            : "border-b border-transparent py-6",
+            : "border-b border-transparent py-5",
         )}
-        style={{ ["--header-h" as string]: "5.5rem" }}
+        style={{ ["--header-h" as string]: "5rem" }}
+        /*
+          The bar settles in with the hero rather than being there before it.
+          It sits in the root layout, so this runs once per full page load and
+          not on client navigations.
+        */
+        initial={{ opacity: 0, y: -14 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.9, ease: easePremium, delay: 0.15 }}
       >
         <div className="container-x flex items-center justify-between gap-8">
           <Logo showTagline={!scrolled} />
@@ -52,80 +68,13 @@ export const Header = () => {
             <ul className="flex items-center gap-9">
               {navigation.map((item) => {
                 const active =
-                  pathname === item.href ||
-                  (item.href !== "/" && pathname.startsWith(item.href));
-
-                if (!item.children) {
-                  return (
-                    <li key={item.href}>
-                      <NavLink href={item.href} active={active}>
-                        {item.label}
-                      </NavLink>
-                    </li>
-                  );
-                }
+                  pathname === item.href || pathname.startsWith(`${item.href}/`);
 
                 return (
-                  <li
-                    key={item.href}
-                    className="relative"
-                    onMouseEnter={() => setProductsOpen(true)}
-                    onMouseLeave={() => setProductsOpen(false)}
-                    onFocus={() => setProductsOpen(true)}
-                    onBlur={(event) => {
-                      if (!event.currentTarget.contains(event.relatedTarget as Node)) {
-                        setProductsOpen(false);
-                      }
-                    }}
-                  >
-                    <NavLink
-                      href={item.href}
-                      active={active}
-                      aria-expanded={productsOpen}
-                      aria-haspopup="true"
-                    >
+                  <li key={item.href}>
+                    <NavLink href={item.href} active={active}>
                       {item.label}
-                      <svg
-                        width="9"
-                        height="6"
-                        viewBox="0 0 9 6"
-                        fill="none"
-                        aria-hidden="true"
-                        className={cn(
-                          "ml-1.5 inline-block transition-transform duration-300",
-                          productsOpen && "rotate-180",
-                        )}
-                      >
-                        <path d="M1 1l3.5 3.5L8 1" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
-                      </svg>
                     </NavLink>
-
-                    <div
-                      className={cn(
-                        "absolute top-full left-1/2 w-60 -translate-x-1/2 pt-5 transition-[opacity,transform] duration-300 ease-[var(--ease-premium)]",
-                        productsOpen
-                          ? "pointer-events-auto translate-y-0 opacity-100"
-                          : "pointer-events-none -translate-y-1.5 opacity-0",
-                      )}
-                    >
-                      <ul className="border border-cream-100/10 bg-ink-900/97 p-2 shadow-[var(--shadow-panel)] backdrop-blur-xl">
-                        {item.children.map((child) => (
-                          <li key={child.href}>
-                            <Link
-                              href={child.href}
-                              prefetch={false}
-                              tabIndex={productsOpen ? 0 : -1}
-                              className={cn(
-                                "block px-4 py-3 text-sm text-cream-200/80 transition-colors duration-300 hover:bg-bronze-500/10 hover:text-bronze-200",
-                                pathname === child.href && "text-bronze-300",
-                              )}
-                            >
-                              {child.label}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
                   </li>
                 );
               })}
@@ -135,7 +84,7 @@ export const Header = () => {
           <div className="flex items-center gap-3">
             <Link
               href="/contact#quote"
-              className="hidden bg-bronze-500 px-6 py-3 text-[0.8125rem] font-medium tracking-wide text-ink-950 transition-colors duration-500 hover:bg-bronze-400 lg:inline-flex"
+              className="hidden rounded-[var(--radius-control)] bg-bronze-500 px-6 py-3 text-[0.8125rem] font-medium tracking-wide text-ink-950 transition-colors duration-500 hover:bg-bronze-400 lg:inline-flex"
             >
               Request a Quote
             </Link>
@@ -177,12 +126,11 @@ const NavLink = ({
   href,
   active,
   children,
-  ...props
 }: {
   href: string;
   active: boolean;
   children: React.ReactNode;
-} & React.ComponentProps<typeof Link>) => (
+}) => (
   <Link
     href={href}
     aria-current={active ? "page" : undefined}
@@ -190,7 +138,6 @@ const NavLink = ({
       "group relative inline-flex items-center text-[0.8125rem] tracking-[0.14em] uppercase transition-colors duration-500",
       active ? "text-bronze-300" : "text-cream-100/85 hover:text-bronze-200",
     )}
-    {...props}
   >
     {children}
     <span

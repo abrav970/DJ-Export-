@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { HeadlineReveal } from "@/components/motion/HeadlineReveal";
+import { HeadingReveal } from "@/components/motion/HeadingReveal";
 import { Reveal } from "@/components/motion/Reveal";
 import { cn } from "@/lib/utils";
 
@@ -31,11 +31,7 @@ export const SectionHeading = ({
   children,
 }: SectionHeadingProps) => (
   <div
-    className={cn(
-      "max-w-3xl",
-      align === "center" && "mx-auto text-center",
-      className,
-    )}
+    className={cn("max-w-2xl", align === "center" && "mx-auto text-center", className)}
   >
     {eyebrow ? (
       <Reveal y={12}>
@@ -49,7 +45,7 @@ export const SectionHeading = ({
           <span
             className={cn(
               "eyebrow",
-              tone === "dark" ? "text-bronze-300" : "text-bronze-600",
+              tone === "dark" ? "text-bronze-300" : "text-bronze-700",
             )}
           >
             {eyebrow}
@@ -58,24 +54,29 @@ export const SectionHeading = ({
       </Reveal>
     ) : null}
 
-    <HeadlineReveal
+    {/*
+      Section heads sit a controlled step below the hero rather than competing
+      with it — the impact belongs to the hero display size, not to every h2.
+    */}
+    <HeadingReveal
       as={as}
-      trigger="inView"
       text={title}
       accentWords={accentWords}
-      delay={0.05}
+      accentClassName={
+        tone === "dark" ? "text-bronze-400 italic" : "text-bronze-700 italic"
+      }
       className={cn(
-        "mt-5 text-[clamp(2rem,4.4vw,3.25rem)] leading-[1.08]",
+        "mt-5 text-[clamp(1.875rem,3.8vw,2.875rem)] leading-[1.12]",
         tone === "dark" ? "text-cream-100" : "text-ink-900",
       )}
     />
 
     {description ? (
-      <Reveal delay={0.15}>
+      <Reveal delay={0.1}>
         <div
           className={cn(
-            "mt-6 text-[1.0625rem] leading-[1.75]",
-            tone === "dark" ? "text-cream-200/75" : "text-ink-700/80",
+            "mt-5 text-[1.0625rem] leading-[1.75]",
+            tone === "dark" ? "text-muted-dark" : "text-muted-light",
           )}
         >
           {description}

@@ -1,8 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { useSearchParams } from "next/navigation";
-import { useId, useState, type FormEvent } from "react";
+import { useId, useState, useSyncExternalStore, type FormEvent } from "react";
 import { Button } from "@/components/ui/Button";
 import { company } from "@/data/company";
 import { productOptions } from "@/data/products";
@@ -44,6 +43,12 @@ const packagingOptions = [
   "Buyer-specified packing",
 ];
 
+/** The query string never changes without a navigation, so nothing to subscribe to. */
+const subscribeToNothing = () => () => {};
+const getUrlProduct = () =>
+  new URLSearchParams(window.location.search).get("product") ?? "";
+const getServerProduct = () => "";
+
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 const validate = (values: Fields): Errors => {
@@ -71,18 +76,31 @@ const validate = (values: Fields): Errors => {
  * endpoint — the form itself does not need to change.
  */
 export const QuoteForm = ({ tone = "dark" }: { tone?: "dark" | "light" }) => {
-  const searchParams = useSearchParams();
-  const preselected = searchParams.get("product") ?? "";
   const formId = useId();
 
-  const [values, setValues] = useState<Fields>({
-    ...empty,
-    product: productOptions.some((option) => option.value === preselected)
-      ? preselected
-      : "",
-  });
+  const [values, setValues] = useState<Fields>(empty);
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+
+  /*
+   * Pre-select the product from ?product=<slug>.
+   *
+   * Read straight from window.location rather than with useSearchParams().
+   * useSearchParams() forces this subtree behind a Suspense boundary on a
+   * statically prerendered route, and that boundary never resolved on the
+   * client — React left the server HTML in place, unhydrated, so the form
+   * submitted natively as a GET and the enquiry was silently lost.
+   *
+   * useSyncExternalStore (rather than an effect) keeps the server snapshot
+   * empty, which is what the prerendered HTML contains, so there is no
+   * hydration mismatch and no setState during render or in an effect.
+   */
+  const urlSlug = useSyncExternalStore(subscribeToNothing, getUrlProduct, getServerProduct);
+  const preselected = productOptions.some((option) => option.value === urlSlug)
+    ? urlSlug
+    : "";
+  /** The user's own choice wins once they have made one. */
+  const product = values.product || preselected;
 
   const dark = tone === "dark";
 
@@ -95,7 +113,8 @@ export const QuoteForm = ({ tone = "dark" }: { tone?: "dark" | "light" }) => {
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const nextErrors = validate(values);
+    const submission: Fields = { ...values, product };
+    const nextErrors = validate(submission);
     setErrors(nextErrors);
 
     if (Object.keys(nextErrors).length > 0) {
@@ -109,7 +128,7 @@ export const QuoteForm = ({ tone = "dark" }: { tone?: "dark" | "light" }) => {
       const response = await fetch("/api/quote", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        body: JSON.stringify(submission),
       });
       if (!response.ok) throw new Error("Request failed");
       setStatus("success");
@@ -302,7 +321,7 @@ export const QuoteForm = ({ tone = "dark" }: { tone?: "dark" | "light" }) => {
         <select
           id={`${formId}-product`}
           name="product"
-          value={values.product}
+          value={product}
           onChange={update("product")}
           aria-invalid={Boolean(errors.product)}
           aria-describedby={errors.product ? `${formId}-product-error` : undefined}
@@ -419,7 +438,7 @@ export const QuoteForm = ({ tone = "dark" }: { tone?: "dark" | "light" }) => {
           >
             {status === "submitting" ? "Sending…" : "Request a Quote"}
           </Button>
-          <p className={cn("text-xs leading-relaxed", dark ? "text-cream-200/45" : "text-ink-700/60")}>
+          <p className={cn("text-xs leading-relaxed", dark ? "text-muted-dark" : "text-muted-light")}>
             Your details are used only to respond to this enquiry.
           </p>
         </div>
@@ -451,11 +470,14 @@ const Field = ({
     <label htmlFor={id} className={labelClass}>
       {label}
       {required ? (
-        <span className="ml-1 text-bronze-500" aria-hidden="true">
+        <span
+          className={cn("ml-1", dark ? "text-bronze-300" : "text-bronze-700")}
+          aria-hidden="true"
+        >
           *
         </span>
       ) : (
-        <span className={cn("ml-2 normal-case", dark ? "text-cream-200/35" : "text-ink-700/45")}>
+        <span className={cn("ml-2 normal-case", dark ? "text-muted-dark" : "text-muted-light")}>
           (optional)
         </span>
       )}

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import type { ElementType, ReactNode } from "react";
 import { baseTransition, stagger, viewportOnce } from "@/lib/motion";
 
@@ -47,14 +47,14 @@ export const StaggerItem = ({
   y?: number;
   as?: ElementType;
 }) => {
-  const reduce = useReducedMotion();
   const MotionTag = motion[as as "div"];
 
   return (
     <MotionTag
+      data-reveal
       className={className}
       variants={{
-        hidden: reduce ? { opacity: 0 } : { opacity: 0, y },
+        hidden: { opacity: 0, y },
         visible: { opacity: 1, y: 0, transition: baseTransition },
       }}
     >

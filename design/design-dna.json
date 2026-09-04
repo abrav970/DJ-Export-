@@ -1,0 +1,272 @@
+{
+  "meta": {
+    "name": "Agri-Export Editorial — Banded Photographic",
+    "description": "Design DNA extracted from a B2B Indian agri-export marketing site. The signature is a hard alternation between a saturated brand-colour band and a light band carrying a faint dotted world-map, large tight-leading display headlines revealed character-by-character on scroll, tall rounded portrait image cards in staggered columns, and filled buttons that carry a contrasting hairline border plus a trailing arrow. Captured as a transferable visual grammar: every colour and typeface below is the REFERENCE's own and is expected to be substituted by the consuming brand's tokens.",
+    "source_references": [
+      "https://www.spicexports.com/index.html (viewport 1440x900, captured 2026-09-01; computed-style extraction + deterministic k-means colour measurement of the hero)"
+    ],
+    "created_at": "2026-09-01"
+  },
+
+  "design_system": {
+    "color": {
+      "palette_type": "monochromatic",
+      "primary": { "hex": "#024D29", "role": "Dominant brand field. Fills entire alternating sections, the sticky header and the footer. Carries white text; used as a surface far more than as an accent." },
+      "secondary": { "hex": "#03221B", "role": "Near-black deepening of the primary hue. Used for headings on light surfaces and for the darkest end of the neutral ramp, so dark text reads as the same family as the brand field rather than as neutral grey." },
+      "accent": { "hex": "#FFFFFF", "role": "On a saturated ground the accent inverts: white is the emphasis colour. Button borders, arrows, overlines and headline highlights are white, which is why CTAs read as bright on the dark band." },
+      "neutral": {
+        "scale": ["#FFFFFF", "#FAFAFA", "#F2F2F2", "#AFAFAF", "#6B6B6B", "#03221B"],
+        "usage": "Light bands sit on #FFFFFF with #FAFAFA panels for inset lists and FAQ rows. #AFAFAF is the dotted world-map pattern and the un-revealed state of animating headline characters. #03221B is the darkest step and the standing body/heading colour on light bands, contrasting against the #FFFFFF background."
+      },
+      "semantic": {
+        "success": "#2E7D32",
+        "warning": "#B26A00",
+        "error": "#B3261E",
+        "info": "#024D29"
+      },
+      "surface": {
+        "background": "#034a2a",
+        "card": "#FFFFFF",
+        "elevated": "#FAFAFA"
+      },
+      "contrast_strategy": "Band inversion. Rather than modulating contrast within one background, the page alternates between a saturated dark field (white text, white-bordered controls) and a white field (near-black text, filled brand-colour controls). Contrast is therefore always near-maximal; mid-tones appear only in photography and in the dotted background pattern.",
+      "measurement": {
+        "k": 10,
+        "sampling": { "method": "deterministic_stratified", "max_pixels": 160000, "sampled_pixels": 160000 }
+      },
+      "measured_palette": [
+        { "hex": "#034a2a", "coverage": 0.5812, "role": "background" },
+        { "hex": "#0a2113", "coverage": 0.1593, "role": "accent" },
+        { "hex": "#214b21", "coverage": 0.098, "role": "unassigned" },
+        { "hex": "#125751", "coverage": 0.0529, "role": "unassigned" },
+        { "hex": "#43672e", "coverage": 0.0425, "role": "unassigned" },
+        { "hex": "#46795e", "coverage": 0.0234, "role": "unassigned" },
+        { "hex": "#78966b", "coverage": 0.0194, "role": "unassigned" },
+        { "hex": "#e2f8ee", "coverage": 0.0106, "role": "text" },
+        { "hex": "#9cbea4", "coverage": 0.0105, "role": "unassigned" },
+        { "hex": "#2acf6a", "coverage": 0.0023, "role": "unassigned" }
+      ]
+    },
+
+    "typography": {
+      "type_scale": {
+        "display":    { "size": "75px", "weight": "700", "line_height": "1.10", "tracking": "0em" },
+        "heading_1":  { "size": "75px", "weight": "700", "line_height": "1.10", "tracking": "0em" },
+        "heading_2":  { "size": "46px", "weight": "700", "line_height": "1.10", "tracking": "0em" },
+        "heading_3":  { "size": "22px", "weight": "600", "line_height": "1.10", "tracking": "0em" },
+        "body":       { "size": "16px", "weight": "400", "line_height": "1.65", "tracking": "0em" },
+        "body_small": { "size": "15px", "weight": "400", "line_height": "1.60", "tracking": "0em" },
+        "caption":    { "size": "14px", "weight": "400", "line_height": "1.50", "tracking": "0em" },
+        "overline":   { "size": "16px", "weight": "600", "line_height": "1.50", "tracking": "0.2em" }
+      },
+      "font_families": {
+        "heading": "Rajdhani — condensed semi-technical sans, squarish counters, near-zero tracking, set very tight (1.1) so multi-line headlines read as a solid mass",
+        "body": "DM Sans — low-contrast geometric sans with a large x-height, set loose (1.65) for comfortable paragraph reading",
+        "mono": "not used anywhere in the reference"
+      },
+      "font_style_notes": "A two-family system with a deliberately wide personality gap: headings are condensed, heavy and vertically compressed; body is open, round and generously leaded. Headings run 700 almost everywhere — there is no light or medium display weight. The overline is the only letterspaced element on the page (0.2em) and is set in the BODY family, not the display family, which keeps it reading as a label rather than as a small heading."
+    },
+
+    "spacing": {
+      "base_unit": "8px",
+      "scale": ["8px", "16px", "24px", "32px", "48px", "64px", "96px", "120px"],
+      "content_density": "comfortable",
+      "section_rhythm": "Large and near-constant: roughly 96–120px of vertical padding at each end of every band, so the alternating colour blocks read as evenly-weighted slabs. Rhythm is created by the colour change at the band boundary rather than by varying the gap."
+    },
+
+    "layout": {
+      "grid_system": "12-column flexible grid",
+      "max_content_width": "1300px",
+      "columns": "12 (content typically occupies 5+7 or 6+6 for split sections; 4-up for product card rows)",
+      "gutter": "24px",
+      "breakpoints": ["576px", "768px", "992px", "1200px", "1400px"],
+      "alignment_tendency": "asymmetric — split sections put text hard-left against a ragged, offset cluster of images on the right; the two halves are deliberately not vertically centred against each other"
+    },
+
+    "shape": {
+      "border_radius": { "small": "10px", "medium": "20px", "large": "24px", "pill": "9999px" },
+      "border_usage": "hairline on controls only — a 1.6px border sits on filled buttons in the contrast colour, which is the reference's most distinctive control detail; content surfaces carry no borders",
+      "divider_style": "1px full-width hairline at very low opacity, used once inside the about block to separate prose from the checklist"
+    },
+
+    "elevation": {
+      "shadow_style": "soft diffused",
+      "levels": {
+        "low": "0 0 20px rgba(0,0,0,0.15)",
+        "medium": "0 4px 6px rgba(0,0,0,0.30)",
+        "high": "0 10px 40px rgba(0,0,0,0.35)"
+      },
+      "depth_cues": "overlapping layers first, shadows second — tall image cards are offset vertically against one another and against the dotted background so depth reads from stagger and occlusion; shadows are subtle and mostly carry the floating action buttons and the white cards on light bands"
+    },
+
+    "iconography": {
+      "style": "outline, geometric, minimal detail",
+      "stroke_weight": "1.5–2px",
+      "size_scale": ["16px", "20px", "24px"],
+      "preferred_set": "a right-pointing arrow is the dominant glyph — it terminates every button and every list item; supporting glyphs are a check mark for assurance lists and circular phone/chat marks for the floating actions"
+    },
+
+    "motion": {
+      "easing": "ease-in-out (measured 0.5s ease-in-out on controls); scroll-linked sequences are scrubbed rather than eased",
+      "duration_scale": { "micro": "200ms", "normal": "500ms", "macro": "900ms" },
+      "entrance_pattern": "scroll-scrubbed character reveal on headlines; sections and cards fade and rise a short distance as they enter",
+      "exit_pattern": "none — content does not animate out; reveals are one-way and hold their final state",
+      "philosophy": "cinematic but restrained. One signature effect (the headline character sweep) carries the personality and repeats at every section, while everything else moves slowly and simply. Control transitions are unusually long at 500ms, which makes hovers feel deliberate rather than snappy."
+    },
+
+    "components": {
+      "button_style": "Filled in the brand colour with a 1.6px border in the contrast colour and a 10px radius. Padding is deliberately asymmetric — roughly 17px top/bottom, 20px leading, 50px trailing — to reserve space for a trailing arrow that sits inside the button rather than after it. Label is 16px/700 in the body family. Transition 0.5s ease-in-out.",
+      "input_style": "not exercised on the landing page; the enquiry path is a button to a form page",
+      "card_style": "20px radius, white surface. Product cards are image-on-top with the photograph filling the full card width and a white label bar beneath carrying a single centred 22px/600 title. Feature images are tall portrait tiles at the same radius with no label at all.",
+      "navigation_pattern": "sticky top bar on the brand-colour field, logo hard-left, centred horizontal links, a single outlined CTA hard-right; one dropdown for the product category tree",
+      "modal_style": "none on the landing page; a persistent chat widget and floating call/chat buttons occupy the bottom corners instead",
+      "list_style": "icon-led single-line items — a coloured check or arrow glyph, then a short phrase with its first two or three words bolded — grouped inside a tinted inset panel",
+      "component_notes": "The system is small and repeats hard: one button, one card, one list row, one overline. Variety comes from the band colour behind a component, not from the component having variants."
+    }
+  },
+
+  "design_style": {
+    "aesthetic": {
+      "mood": ["grounded", "verdant", "trustworthy", "industrious", "warm-institutional"],
+      "visual_metaphor": "the plantation and the port — living crop colour carried into a corporate export frame",
+      "era_influence": "2020s flat corporate web with a late-2010s parallax inheritance",
+      "genre": "corporate agri-export B2B brochure",
+      "personality_traits": ["dependable", "eager", "plain-spoken", "hospitable"],
+      "adjectives": ["saturated", "banded", "rounded", "photographic", "direct"]
+    },
+    "visual_language": {
+      "complexity": "moderate",
+      "ornamentation": "subtle accents — the dotted world map and the button borders are the only decorative devices",
+      "whitespace_usage": "generous vertically, tight horizontally; content runs close to the 1300px container edge while bands are padded deeply top and bottom",
+      "visual_weight_distribution": "bottom-heavy within sections — a light overline and headline sit above a dense block of photography or cards",
+      "focal_strategy": "single hero element per band, reinforced by the colour inversion at each boundary",
+      "contrast_level": "high",
+      "texture_usage": "one texture only: a low-contrast dotted world-map field on light bands, which keeps large white areas from reading as empty"
+    },
+    "composition": {
+      "hierarchy_method": "scale contrast plus colour weight — an enormous display size against 16px body, on an inverting ground",
+      "balance_type": "asymmetric",
+      "flow_direction": "left-to-right within bands, strictly top-to-bottom between them",
+      "grouping_strategy": "banding — each topic owns a full-bleed colour block, and membership in a group is signalled by sharing that block",
+      "negative_space_role": "separator and pacing device rather than an aesthetic subject; space exists to let the colour bands read as discrete slabs"
+    },
+    "imagery": {
+      "photo_treatment": "full-colour, unfiltered, high-saturation macro and still-life photography at full opacity; no duotone, no overlay wash, no grade",
+      "illustration_style": "none — the only non-photographic graphic is the dotted map",
+      "graphic_elements": ["dotted world map", "trailing arrows", "check glyphs", "circular floating action buttons"],
+      "pattern_usage": "single repeating dot-matrix world map, very low contrast, confined to light bands",
+      "image_shape": "rounded rectangles at 20px; feature imagery is strongly portrait (roughly 1:2.5) and product imagery is landscape within a card"
+    },
+    "interaction_feel": {
+      "feedback_style": "colour and border inversion on hover; no movement or scale change on controls",
+      "hover_behavior": "slow crossfade between filled and outlined states over 500ms",
+      "transition_personality": "smooth glide",
+      "loading_style": "content reveals progressively on scroll rather than showing a loading state",
+      "microinteraction_density": "low — persistent floating contact buttons are the only always-on interactive ornament"
+    },
+    "brand_voice_in_ui": {
+      "tone": "warm, plain and reassuring; leads with capability claims rather than with product detail",
+      "formality": "semi-formal — business-direct but not legalistic",
+      "cta_style": "friendly invitation ('Get In Touch', 'Enquiry Now') rather than urgent or transactional",
+      "empty_state_approach": "not exercised",
+      "error_tone": "not exercised"
+    }
+  },
+
+  "visual_effects": {
+    "overview": {
+      "effect_intensity": "moderate",
+      "performance_tier": "lightweight",
+      "fallback_strategy": "reduce to CSS — the headline sweep degrades to its finished state and scroll reveals resolve immediately",
+      "primary_technology": "GSAP-class scroll-linked JS over DOM text, plus CSS transitions"
+    },
+    "background_effects": {
+      "type": "none",
+      "description": "No animated background. The only background treatment is a static dotted world-map raster on light bands, which does not move, and full-bleed photography on dark bands.",
+      "technology": "static image",
+      "params": {
+        "color_palette": ["#AFAFAF at low opacity on #FFFFFF"],
+        "speed": "static",
+        "density": "fine dot matrix, roughly 6–8px pitch",
+        "opacity": "0.10–0.18",
+        "blend_mode": "normal"
+      }
+    },
+    "particle_systems": {
+      "enabled": false,
+      "type": "none", "description": "No particle system observed.", "technology": "none",
+      "params": { "count": "0", "shape": "none", "size_range": "none", "movement_pattern": "none", "color_behavior": "none", "interaction": "none", "spawn_area": "none" }
+    },
+    "3d_elements": {
+      "enabled": false,
+      "type": "none", "description": "No WebGL or 3D content. The globe in the hero is photographic, not rendered.", "technology": "none",
+      "params": { "renderer": "none", "lighting": "none", "camera": "none", "materials": "none", "geometry": "none", "post_processing": [], "interaction_model": "none" }
+    },
+    "shader_effects": {
+      "enabled": false,
+      "type": "none", "description": "No shader programs.", "technology": "none",
+      "params": { "uniforms": "none", "vertex_manipulation": "none", "fragment_output": "none", "noise_type": "none", "distortion": "none" }
+    },
+    "scroll_effects": {
+      "parallax": {
+        "enabled": true,
+        "layers": "2",
+        "depth_range": "shallow — the hero photograph drifts slightly against its overlaid text block; staggered image columns translate at marginally different rates",
+        "speed_curve": "linear, scrubbed to scroll position"
+      },
+      "scroll_triggered_animations": {
+        "enabled": true,
+        "trigger_points": "as a section's headline crosses roughly the lower third of the viewport",
+        "animation_type": "clip-reveal on headline characters; fade-up on supporting blocks and cards",
+        "scrub_behavior": "true scrub — the headline reveal is bound to scroll position and can be driven backwards, not a fire-once tween"
+      },
+      "scroll_morphing": {
+        "enabled": false,
+        "description": "No shape or layout morphing tied to scroll."
+      }
+    },
+    "text_effects": {
+      "type": "split-letter-animate",
+      "description": "The signature effect. Every section headline is split into individual characters that begin in a desaturated low-contrast state and sweep to full colour left-to-right as the section scrolls in. Captured mid-sweep the headline reads as fully-formed characters at the head and ghosted characters at the tail, which is what makes the reveal legible as a sweep rather than a fade.",
+      "technology": "JS text splitting driven by a scrubbed scroll timeline",
+      "params": {
+        "split_strategy": "by-char",
+        "animation_per_unit": "colour and opacity interpolation from the mid-grey un-revealed state to the final heading colour; no transform",
+        "stagger": "positional — each character's progress is a function of its index against overall scroll progress, roughly 25–40ms of equivalent offset per character",
+        "effect_style": "left-to-right colour sweep"
+      }
+    },
+    "cursor_effects": {
+      "enabled": false,
+      "type": "none", "description": "Default system cursor throughout.",
+      "params": { "shape": "none", "size": "none", "blend_mode": "none", "trail": "none", "interaction_zone": "none" }
+    },
+    "image_effects": {
+      "type": "reveal-clip",
+      "description": "Images arrive with a soft rise-and-fade as their column enters the viewport. No hover distortion, tilt or filter pipeline — photography is presented plainly and at full saturation.",
+      "technology": "CSS transition driven by an intersection trigger",
+      "params": {
+        "filter_pipeline": "none",
+        "hover_transform": "none",
+        "reveal_animation": "opacity 0→1 with a short upward translate, ~600ms",
+        "distortion_type": "none"
+      }
+    },
+    "glassmorphism_neumorphism": {
+      "enabled": false,
+      "style": "none",
+      "params": { "blur_radius": "none", "transparency": "none", "border_treatment": "none", "shadow_type": "none", "light_source_angle": "none" }
+    },
+    "canvas_drawings": {
+      "enabled": false,
+      "type": "none", "description": "No canvas element in use.", "technology": "none",
+      "params": { "draw_method": "none", "animation_loop": "none", "color_scheme": "none", "responsiveness": "none", "interaction": "none" }
+    },
+    "svg_animations": {
+      "enabled": false,
+      "type": "none", "description": "SVG is used for static icons only; no path drawing, morphing or filter animation.",
+      "params": { "animation_method": "none", "path_morphing": "none", "stroke_animation": "none", "filter_effects": "none" }
+    },
+    "composite_notes": "The page's perceived richness comes from one effect repeated with discipline, not from layering. The scrubbed character sweep fires on every section headline and is the only thing on the page that feels authored; everything else is a plain fade-up. Two consequences matter when transferring this DNA: (1) the sweep depends on a heavy, tightly-leaded display face to read — on a light or airy face the un-revealed grey state looks like broken rendering rather than an effect; (2) because the reveal is scrubbed rather than fired, a reduced-motion path must render the finished headline immediately rather than replaying it faster. Two effects were observed but are incidental rather than part of the design language: a third-party chat widget and a pair of floating call/chat buttons, both vendor chrome."
+  }
+}

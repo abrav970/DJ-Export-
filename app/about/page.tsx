@@ -4,12 +4,10 @@ import { Parallax } from "@/components/motion/Parallax";
 import { Reveal } from "@/components/motion/Reveal";
 import { StaggerGroup, StaggerItem } from "@/components/motion/StaggerGroup";
 import { Compliance } from "@/components/sections/Compliance";
-import { FinalCta } from "@/components/sections/FinalCta";
 import { GlobalSupply } from "@/components/sections/GlobalSupply";
 import { PageHero } from "@/components/sections/PageHero";
-import { SourceStory } from "@/components/sections/SourceStory";
-import { Stats } from "@/components/sections/Stats";
-import { WhyChooseUs } from "@/components/sections/WhyChooseUs";
+import { Process } from "@/components/sections/Process";
+import { QuoteCta } from "@/components/sections/QuoteCta";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { company } from "@/data/company";
 
@@ -20,18 +18,18 @@ export const metadata: Metadata = {
   alternates: { canonical: "/about" },
 };
 
-const principles = [
+const pillars = [
   {
-    title: "Specification first",
-    body: "Nothing is agreed loosely. Grade, moisture, density, packing and marks are written down before a lot is committed, so what arrives is what was quoted.",
+    title: "Source",
+    body: "We buy where the crop is cured and graded, close to the estates in India's southern hill districts, rather than through long intermediary chains.",
   },
   {
-    title: "Close to origin",
-    body: "We buy where the crop is cured and graded rather than through long intermediary chains, which keeps quality decisions and pricing transparent.",
+    title: "Quality",
+    body: "Grade, moisture, density and packing are agreed in writing before a lot is committed, and checked again before it ships.",
   },
   {
-    title: "Documentation done properly",
-    body: "Export paperwork is prepared carefully and shared early, because a delayed document costs a buyer more than a delayed truck.",
+    title: "Export",
+    body: "Commercial and shipping paperwork is prepared carefully and shared early, because a delayed document costs a buyer more than a delayed truck.",
   },
 ];
 
@@ -40,38 +38,35 @@ export default function AboutPage() {
     <>
       <PageHero
         eyebrow="About DJ Export"
-        title="An export company built around one idea: send exactly what was agreed"
-        accentWords={["agreed"]}
+        title="Connecting quality Indian produce with global markets"
+        accentWords={["global", "markets"]}
         description={company.shortDescription}
         slot="landscape"
         crumbs={[{ label: "Home", href: "/" }, { label: "About" }]}
       />
 
-      <section className="bg-cream-50 py-24 lg:py-[var(--spacing-section)]">
+      {/* Who we are */}
+      <section className="bg-cream-50 py-[var(--spacing-section)]">
         <div className="container-x">
-          <div className="grid gap-14 lg:grid-cols-12 lg:gap-20">
+          <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-20">
             <div className="lg:col-span-6">
               <SectionHeading
-                eyebrow="Our work"
-                title="From India's growing regions to your warehouse"
-                accentWords={["warehouse"]}
+                eyebrow="Who we are"
+                title="An export company built around one idea"
+                accentWords={["idea"]}
                 description={
                   <div className="space-y-5">
                     <p>
                       DJ Export is an India-based agricultural exporter. We source
                       coffee, black pepper and cardamom from the hill districts of
-                      southern India and supply them to businesses abroad that roast,
-                      grind, blend, pack and distribute.
+                      southern India and supply them to businesses abroad that
+                      roast, grind, blend, pack and distribute.
                     </p>
                     <p>
-                      The commodities we handle are ones we know well. Rather than
-                      listing a wide catalogue, we keep to three lines and concentrate
-                      on getting the grade, the packing and the paperwork right for
-                      each shipment.
-                    </p>
-                    <p>
-                      Buyers deal with us directly. The person who quotes your enquiry
-                      is the person who follows the lot through packing and dispatch.
+                      Rather than listing a wide catalogue we keep to three lines
+                      and concentrate on getting the grade, the packing and the
+                      paperwork right. The person who quotes your enquiry is the
+                      person who follows the lot through packing and dispatch.
                     </p>
                   </div>
                 }
@@ -79,24 +74,33 @@ export default function AboutPage() {
             </div>
 
             <div className="lg:col-span-6">
-              <Reveal y={36}>
-                <Parallax className="aspect-[4/5] w-full" distance={10}>
-                  <Media slot="plantation" sizes="(max-width: 1024px) 100vw, 45vw" />
+              <Reveal y={32}>
+                <Parallax
+                  className="aspect-[4/3] w-full overflow-hidden rounded-[var(--radius-tile)]"
+                  distance={10}
+                >
+                  <Media
+                    slot="plantation"
+                    sizes="(max-width: 1024px) 100vw, 45vw"
+                    tone="dark"
+                  />
                 </Parallax>
               </Reveal>
             </div>
           </div>
 
+          {/* What we do */}
           <StaggerGroup
             as="ul"
-            step={0.12}
-            className="mt-20 grid gap-px border border-ink-900/10 bg-ink-900/10 lg:grid-cols-3"
+            className="mt-16 grid gap-x-12 gap-y-10 border-t border-ink-900/12 pt-12 lg:grid-cols-3"
           >
-            {principles.map((principle) => (
-              <StaggerItem as="li" key={principle.title} className="bg-cream-50 p-8 lg:p-10">
-                <h3 className="font-display text-2xl text-ink-900">{principle.title}</h3>
-                <p className="mt-4 text-[0.9375rem] leading-relaxed text-ink-700/80">
-                  {principle.body}
+            {pillars.map((pillar) => (
+              <StaggerItem as="li" key={pillar.title} y={18}>
+                <h2 className="text-[0.6875rem] font-sans font-medium tracking-[0.28em] text-bronze-700 uppercase">
+                  {pillar.title}
+                </h2>
+                <p className="mt-4 text-[0.9375rem] leading-relaxed text-muted-light">
+                  {pillar.body}
                 </p>
               </StaggerItem>
             ))}
@@ -104,16 +108,10 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <SourceStory
-        background={
-          <Media slot="coffee-drying" sizes="100vw" idPrefix="source-story" />
-        }
-      />
-      <WhyChooseUs />
-      <Stats />
-      <Compliance />
+      <Process />
       <GlobalSupply />
-      <FinalCta />
+      <Compliance />
+      <QuoteCta />
     </>
   );
 }
