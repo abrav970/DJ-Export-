@@ -45,12 +45,6 @@ export const ProductDetail = ({ product }: { product: Product }) => (
                 <p className="mt-3 text-[0.9375rem] leading-relaxed text-muted-light">
                   {product.originNote}
                 </p>
-
-                <div className="mt-7 space-y-4 border-t border-ink-900/12 pt-6">
-                  <DetailRow label="Harvest" value={product.harvest} />
-                  <DetailRow label="Category" value={product.category} />
-                  <DetailRow label="HS code" value={product.hsCode} />
-                </div>
               </div>
             </Reveal>
           </div>
@@ -102,24 +96,12 @@ export const ProductDetail = ({ product }: { product: Product }) => (
       </div>
     </section>
 
-    {/* Packing, quality and imagery */}
+    {/* Quality and imagery */}
     <section className="bg-cream-100 py-[var(--spacing-section)]">
       <div className="container-x">
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-20">
           <div className="lg:col-span-5">
-            <SectionHeading eyebrow="Packaging" title="Packing options" accentWords={["options"]} />
-            <StaggerGroup as="ul" className="mt-8 space-y-5">
-              {product.packaging.map((option) => (
-                <StaggerItem as="li" key={option.format} y={14}>
-                  <h3 className="font-display text-xl text-ink-900">{option.format}</h3>
-                  <p className="mt-1 text-[0.9375rem] leading-relaxed text-muted-light">
-                    {option.detail}
-                  </p>
-                </StaggerItem>
-              ))}
-            </StaggerGroup>
-
-            <div className="mt-11">
+            <div>
               <SectionHeading eyebrow="Quality" title="How quality is held" accentWords={["held"]} />
               <StaggerGroup as="ul" className="mt-7 space-y-3.5">
                 {product.quality.map((item) => (
@@ -166,11 +148,4 @@ export const ProductDetail = ({ product }: { product: Product }) => (
       </div>
     </section>
   </>
-);
-
-const DetailRow = ({ label, value }: { label: string; value: string }) => (
-  <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
-    <span className="text-[0.6875rem] tracking-[0.22em] text-bronze-700 uppercase">{label}</span>
-    <span className="text-[0.9375rem] text-ink-800 sm:text-right">{value}</span>
-  </div>
 );

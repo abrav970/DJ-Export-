@@ -64,6 +64,80 @@
   --font-display: var(--font-cormorant), "Iowan Old Style", Georgia, "Times New Roman", serif;
 
   /*
+    TYPE SCALE.
+
+    Named by the job, not by the size. Two of these steps exist because a
+    composition constrained them rather than because the scale wanted them —
+    `hero` has a small floor and a high ceiling because the homepage headline
+    sits inside a photograph and has to survive a narrow column, and `feature`
+    is the product name in an editorial spread, which is set larger than a
+    section heading on purpose.
+
+    Every value here is one already in use. This block names the scale; it does
+    not change it. Call sites whose value matched a step exactly were migrated
+    in this phase, and the ones that had drifted were left alone rather than
+    silently restyled — see the drift note in CLAUDE.md.
+  */
+  --text-display-xl: clamp(2.25rem, 4.8vw, 3.75rem);
+  --text-display-xl--line-height: 1.06;
+  --text-display-lg: clamp(2.1rem, 4.4vw, 3.4rem);
+  --text-display-lg--line-height: 1.08;
+  --text-display-md: clamp(2rem, 4vw, 3.1rem);
+  --text-display-md--line-height: 1.1;
+  --text-display-sm: clamp(1.9rem, 3vw, 2.6rem);
+  --text-display-sm--line-height: 1.1;
+  --text-feature: clamp(2.1rem, 3.6vw, 3rem);
+  --text-feature--line-height: 1.06;
+  /*
+    The homepage headline, retuned upward.
+
+    It read 33px at 1536 — smaller than several section headings further down
+    the page, which made the one line that has to land in the first second
+    behave like a caption in the corner of a photograph. `display-md` sets
+    section headings at up to 50px; a hero that loses to its own subheads is
+    the wrong hierarchy, not a restrained one.
+
+    The ceiling is 62px, and it is the composition that sets it rather than
+    taste. The type sits in the empty smoke above the bowls, whose nearest rim
+    begins around 42% of the viewport height; at 62px the two authored lines
+    plus the eyebrow, the supporting line and the controls measure ~330px of a
+    757px screen and clear the rim with room. Past ~68px they do not.
+
+    The floor is 1.9rem rather than the scale's usual 2.25rem because this
+    string is long — 41 characters on its first line — and a 36px floor wraps
+    it mid-phrase on a 390px screen. At 30px it breaks in two clean lines.
+  */
+  --text-hero: clamp(1.9rem, 4.4vw, 3.9rem);
+  --text-hero--line-height: 1.05;
+
+  --text-body-lg: 1.0625rem;
+  --text-body-lg--line-height: 1.8;
+  --text-body: 0.9375rem;
+  --text-body--line-height: 1.75;
+  --text-body-sm: 0.8125rem;
+  --text-body-sm--line-height: 1.6;
+  --text-label: 0.6875rem;
+  --text-label--line-height: 1.4;
+
+  /*
+    Tracking is a separate namespace because the label steps are animated.
+    `LabelReveal` opens from 0.5em to `--tracking-label`, and the
+    reduced-motion block pins the same value — so the token is the one place
+    that number is written down, and a component must never hard-code it.
+  */
+  --tracking-tight: -0.01em;
+  --tracking-hero: -0.015em;
+  --tracking-eyebrow: 0.2em;
+  --tracking-label: 0.28em;
+  --tracking-label-wide: 0.32em;
+
+  /*
+    Container. `.container-x` is the only thing that should read this; the
+    number lived inline in a component class where nothing else could see it.
+  */
+  --container-page: 84rem;
+
+  /*
     Two section rhythms rather than one. Every band used to carry the same
     120px at both ends, which made 23% of the page empty and gave every
     section identical weight. Editorial bands use --spacing-section;
@@ -105,6 +179,56 @@
     /* Sticky header offset for in-page anchors */
     scroll-padding-top: 6rem;
     -webkit-text-size-adjust: 100%;
+  }
+
+  /*
+    Lenis.
+
+    These classes are put on <html> by Lenis itself, so they exist only when
+    <SmoothScroll> actually mounted — which it does not on a coarse pointer or
+    under prefers-reduced-motion. That is why this is written as a class hook
+    rather than a media query: the stylesheet follows the runtime rather than
+    guessing at it.
+
+    `scroll-behavior: auto` is the load-bearing line. Lenis animates the real
+    document scroll position, so leaving the smooth-scroll declaration above in
+    force would put the browser's own interpolation on top of Lenis's and the
+    two fight over every anchor jump.
+  */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  /*
+    Ours, not Lenis's. Lenis does not touch `scroll-behavior`, so the smooth
+    declaration above would stay in force and the browser would interpolate
+    every anchor jump underneath Lenis's own interpolation.
+
+    Scoped to `.lenis` and not `.lenis-smooth`: `lenis-smooth` is only on the
+    element *while* a smooth scroll is in flight, so keying off it would leave
+    the conflict in place for exactly the moment the jump begins.
+  */
+  html.lenis {
+    scroll-behavior: auto !important;
+  }
+
+  /* The rest mirrors lenis/dist/lenis.css — the source of truth on upgrade. */
+  .lenis:not(.lenis-autoToggle).lenis-stopped {
+    overflow: clip;
+  }
+
+  .lenis [data-lenis-prevent],
+  .lenis [data-lenis-prevent-wheel],
+  .lenis [data-lenis-prevent-touch],
+  .lenis [data-lenis-prevent-vertical],
+  .lenis [data-lenis-prevent-horizontal] {
+    overscroll-behavior: contain;
+  }
+
+  /* An iframe swallowing the wheel event desynchronises Lenis from the page. */
+  .lenis.lenis-smooth iframe {
+    pointer-events: none;
   }
 
   body {
@@ -203,10 +327,24 @@
     );
   }
 
+  /*
+    Page gutter.
+
+    Breakpoints are Tailwind's defaults (sm 640 / md 768 / lg 1024 / xl 1280 /
+    2xl 1536) and are deliberately not overridden — but two of them carry
+    meaning in this project and are documented here so they are not treated as
+    arbitrary:
+
+      lg (1024) — the pinning threshold. Nothing pins below it; a
+                  viewport-height panel held on a phone traps the reader.
+      xl (1280) — the hero's crop threshold. Measured, not chosen: below it the
+                  photograph is a band under the type, because `object-cover`
+                  on a taller section trimmed 44px off the pepper bowl at 1024.
+  */
   .container-x {
     width: 100%;
     margin-inline: auto;
-    max-width: 84rem;
+    max-width: var(--container-page);
     padding-inline: 1.25rem;
   }
 
@@ -235,16 +373,35 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
+  html:not([data-motion="full"]) {
     scroll-behavior: auto;
   }
 
-  *,
-  ::before,
-  ::after {
+  /*
+    Transitions are narrowed to opacity, not collapsed to nothing.
+
+    This block used to force `transition-duration: 0.001ms` on everything, which
+    contradicted the rule stated a few lines down: opacity is deliberately left
+    alone "so cross-fades still run — movement causes vestibular discomfort, a
+    fade does not". A zero duration killed the fades along with the movement, so
+    a reduced-motion reader got hard cuts between photographs rather than the
+    quieter version of the same transition.
+
+    Narrowing `transition-property` to opacity is the accurate expression of the
+    intent. Transform, clip-path, colour and size changes all land instantly —
+    there is no motion to see — while a fade still takes the time it was
+    authored to take. Nothing that moves is allowed to move; nothing that only
+    changes brightness is prevented from doing so.
+
+    Animations are still flattened outright: a keyframe animation under `reduce`
+    is almost always decorative and there is no equivalent narrowing for it.
+  */
+  html:not([data-motion="full"]) *,
+  html:not([data-motion="full"]) ::before,
+  html:not([data-motion="full"]) ::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
+    transition-property: opacity !important;
     scroll-behavior: auto !important;
   }
 
@@ -252,23 +409,24 @@
     Scroll-linked motion is bound straight to a MotionValue, so Framer's own
     reduced-motion handling never sees it as an animation. Neutralise it here
     instead — the headline resolves to its finished state, the parallax layer
-    sits flush at inset-0 with no transform, and the process rail shows its
-    completed length.
+    sits flush at inset-0 with no transform.
+
+    This block only has to catch the Framer half of the site. Every GSAP
+    scrubbed transform is created inside `gsap.matchMedia()` keyed on
+    `prefers-reduced-motion: no-preference`, so under `reduce` the ScrollTrigger
+    is never built and the element is never moved off the state the server
+    rendered — there is nothing here to neutralise. See `lib/gsap.ts`.
   */
-  [data-sweep-char] {
+  html:not([data-motion="full"]) [data-sweep-char] {
     opacity: 1 !important;
   }
 
-  [data-parallax-layer] {
+  html:not([data-motion="full"]) [data-parallax-layer] {
     transform: none !important;
   }
 
-  [data-scroll-fade] {
+  html:not([data-motion="full"]) [data-scroll-fade] {
     opacity: 1 !important;
-    transform: none !important;
-  }
-
-  [data-progress-line] {
     transform: none !important;
   }
 
@@ -277,7 +435,7 @@
     an opacity — Framer will not suppress it, and a reader who asked for no
     motion should not watch type space itself out. Pin it to its set value.
   */
-  [data-label-reveal] {
+  html:not([data-motion="full"]) [data-label-reveal] {
     letter-spacing: 0.32em !important;
   }
 
@@ -286,8 +444,57 @@
     rather than opaque. It cannot use [data-scroll-fade], which forces opacity
     to 1 — that would paint the closing photograph out entirely.
   */
-  [data-scroll-veil] {
+  html:not([data-motion="full"]) [data-scroll-veil] {
     opacity: 0 !important;
+  }
+
+  /*
+    The hero is a 240svh spacer holding a 100svh panel, and the extra 140svh
+    only means anything if something is travelling through it. With no travel
+    it is a screen and a half of empty scroll before the page begins, so it
+    collapses back to a single screen.
+
+    In CSS rather than in the component because the length is set during
+    render: branching on `matchMedia` there would emit one height on the
+    server and another on the client and trip a hydration mismatch on the
+    first page of the site.
+
+    `height: auto` plus a floor, not `height: 100svh`. Below xl the panel is a
+    flow container whose content is taller than one screen on a narrow
+    viewport, so pinning an exact height here would clip the photograph for
+    every reduced-motion reader on a phone — the same bug the panel's own
+    `min-h` exists to avoid. With auto, the section takes the panel's height:
+    one screen at xl, and as tall as it needs to be below.
+  */
+  html:not([data-motion="full"]) [data-hero-scene] {
+    height: auto !important;
+    min-height: 100svh !important;
+  }
+
+  /*
+    The hero's scrim has to reach further when there is no sequence.
+
+    With motion, the panel opens on the ridge and the type has already left by
+    the time the commodity frame arrives — the two are never on screen
+    together, so a scrim covering the top 48% is all the photograph ever needs.
+    Without it there is no ridge and no exit: the type sits, permanently, on
+    the commodities, and it is now vertically centred rather than tucked under
+    the header, so it runs from 32% to 68% of the panel.
+
+    74% covers that with margin and only exists in the state that needs it. The
+    stops are the same shape, redistributed — the density under the headline is
+    unchanged and only the tail is longer.
+  */
+  html:not([data-motion="full"]) [data-hero-scrim] {
+    height: 74% !important;
+    background-image: linear-gradient(
+      to bottom,
+      rgba(16, 35, 27, 0.82) 0%,
+      rgba(16, 35, 27, 0.7) 34%,
+      rgba(16, 35, 27, 0.6) 58%,
+      rgba(16, 35, 27, 0.34) 84%,
+      rgba(16, 35, 27, 0) 100%
+    ) !important;
   }
 
   /*
@@ -300,7 +507,7 @@
     open. Opacity is deliberately absent — the cross-fade still runs, which is
     what tells a reader the page is responding to them at all.
   */
-  [data-reveal] {
+  html:not([data-motion="full"]) [data-reveal] {
     transform: none !important;
     clip-path: none !important;
   }

@@ -12,10 +12,32 @@ import { whatsappLink } from "@/lib/utils";
  * imagery; the last screen is quiet on purpose so the single primary control is
  * the only thing competing for attention. WhatsApp is a channel here, not a
  * rival button.
+ *
+ * ---
+ *
+ * NOTHING WAS ADDED TO THE MOTION HERE, ON PURPOSE.
+ *
+ * The brief for this section lists "gentle scale" and "restrained image
+ * movement" among the things it may use, and also says to reduce visual
+ * complexity and to end on nothing dramatic. Those pull in opposite directions
+ * and the second one wins: this is the last screen on the page, the chart above
+ * it has already stepped the complexity down, and the correct end state for a
+ * taper is stillness. There is no image to move, and adding one — or breathing
+ * the light field behind the type — would be motion whose only justification is
+ * that the section is quiet, which is exactly what the project rules out.
+ *
+ * The entrance is already a staggered text reveal into a clean control. That is
+ * the "clean CTA entrance" the brief asks for; it did not need a second gesture.
+ *
+ * The default heading names the commodities and the state rather than the
+ * country. By the time a reader is here the page has said Wayanad fourteen
+ * times, and the ask is the one line that has to work for someone who arrived
+ * at the footer from a search result — "Kerala" is the term a buyer sourcing
+ * spices actually uses, and Wayanad is in it, so nothing is given up.
  */
 export const QuoteCta = ({
-  title = "Ready to source from India?",
-  accentWords = ["India?"],
+  title = "Looking for pepper, coffee or cardamom from Kerala?",
+  accentWords = ["Kerala?"],
 }: {
   title?: string;
   accentWords?: string[];

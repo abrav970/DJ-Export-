@@ -18,8 +18,8 @@ export const ProductGrid = ({ id = "products" }: { id?: string }) => (
           accentWords={["international"]}
         />
         <p className="max-w-sm text-[0.9375rem] leading-relaxed text-muted-light lg:pb-2">
-          Each line is offered in defined grades and packing formats.
-          Specification sheets and samples are shared before an order is confirmed.
+          Each line is offered in defined grades. Specification sheets and
+          samples are shared before an order is confirmed.
         </p>
       </div>
 

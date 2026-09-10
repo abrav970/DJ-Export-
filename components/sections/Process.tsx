@@ -68,7 +68,7 @@ export const Process = () => {
         // section stops eating 43% of the page's total scroll distance.
         style={{ height: `${processSteps.length * 80}vh` }}
       >
-        <div className="sticky top-0 flex h-screen items-center overflow-hidden">
+        <div className="sticky top-0 flex h-svh items-center overflow-hidden">
           <div className="container-x w-full">
             <div className="grid items-center gap-16 lg:grid-cols-12">
               <div className="lg:col-span-5">

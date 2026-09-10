@@ -33,6 +33,34 @@ export const media: Record<MediaSlot, MediaEntry> = {
     // the frame allows.
     position: "50% 0%",
   },
+  "wayanad-hills": {
+    // The far plane of the hero. Already in the repository and previously
+    // unused — no new asset was introduced for this.
+    src: "/images/hero/hero-plantation.jpg",
+    // Deliberately says nothing about where this is. The headline names
+    // Wayanad because that is the company's claim about its sourcing; this
+    // photograph is licensed stock whose location Pexels does not record, and
+    // CREDITS.md is explicit that no image on the site may imply a place or a
+    // facility it cannot support. When a genuine Wayanad frame arrives, this
+    // alt text gets the location and the file gets replaced — one line, here.
+    alt: "Terraced hill estates under monsoon cloud",
+    spec: "3:2 landscape, min 2400px. Receding ridge lines with cloud separating the layers, so the frame has real depth to move through. The upper third carries the headline — keep it quiet and mid-toned. No people, no built structures.",
+    // Anchored low. The cloud at the top of the frame is where the type sits,
+    // and the ridge detail worth seeing is in the lower two thirds.
+    position: "50% 62%",
+  },
+  "shade-canopy": {
+    // The near plane of the origin section. Already in the repository and
+    // previously unused — the third orphan asset this redesign has put to
+    // work rather than adding a new one.
+    src: "/images/sourcing/plantation.jpg",
+    // Says what it shows and nothing about where. The heading above it names
+    // Wayanad because that is the company's claim about its sourcing; this
+    // frame is licensed stock with no recorded location, and CREDITS.md does
+    // not allow a photograph to carry a place it cannot support.
+    alt: "Coffee bush in fruit under a shade canopy",
+    spec: "2:3 portrait, min 1600px. Close in under the canopy on a single bush in fruit — the step from landscape to crop. Dappled shade, deep greens, no colour grading. Documentary, not styled.",
+  },
   plantation: {
     src: "/images/hero/hero background.png",
     alt: "Coffee estate on a Western Ghats hillside at first light",
@@ -66,7 +94,15 @@ export const media: Record<MediaSlot, MediaEntry> = {
   },
   "cardamom-plantation": {
     src: "/images/sourcing/cardamom-plantation.jpg",
-    alt: "Cardamom growing in the shaded understory of a high-altitude plantation in Idukki, Kerala",
+    // The location came out of the alt text when the catalogue moved to
+    // Wayanad. Pexels records this frame as Idukki and CREDITS.md still says
+    // so — that is the provenance record and it stays accurate — but the
+    // public alt now sits directly beside a line reading "Wayanad, Kerala,
+    // India" in the product sequence, and naming a different district there
+    // reads as a contradiction to anyone using a screen reader. Describing
+    // what the photograph shows without claiming where it was taken is the
+    // honest way to drop the conflict rather than paper over it.
+    alt: "Cardamom growing in the shaded understory of a high-altitude plantation",
     spec: "4:5 portrait, min 1600px. Cardamom understory beneath shade trees, cool green light.",
   },
   "cardamom-pods": {

@@ -6,7 +6,7 @@ import { QuoteCta } from "@/components/sections/QuoteCta";
 export const metadata: Metadata = {
   title: "Products — Indian Coffee, Black Pepper & Cardamom",
   description:
-    "Our export range: Indian coffee in cherry, parchment and plantation preparations, Tellicherry black pepper, and bold green cardamom — with grades, packing and specifications for each.",
+    "Our export range: Indian Robusta and Arabica coffee, Tellicherry black pepper, and bold green cardamom — with specifications for each.",
   alternates: { canonical: "/products" },
 };
 
@@ -17,7 +17,7 @@ export default function ProductsPage() {
         eyebrow="Our range"
         title="Commodities we export from India"
         accentWords={["India"]}
-        description="Three lines, each offered in defined grades with packing and documentation prepared for international shipment. Select a commodity for its full specification."
+        description="Three lines, each offered in defined grades with documentation prepared for international shipment. Select a commodity for its full specification."
         slot="hero-export"
         crumbs={[{ label: "Home", href: "/" }, { label: "Products" }]}
       />

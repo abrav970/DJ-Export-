@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ButtonLink } from "@/components/ui/Button";
 import { company, navigation } from "@/data/company";
 import { whatsappLink } from "@/lib/utils";
+import { MotionToggle } from "@/components/motion/MotionToggle";
 import { LogoFull } from "./Logo";
 
 const year = new Date().getFullYear();
@@ -86,6 +87,11 @@ export const Footer = () => (
         <p>
           © {year} {company.legalName}. All rights reserved.
         </p>
+        {/*
+          Renders nothing unless the reader's OS is suppressing motion, so for
+          most visitors this row is unchanged. See <MotionToggle>.
+        */}
+        <MotionToggle />
         <p className="tracking-[0.2em] uppercase">{company.tagline}</p>
       </div>
     </div>

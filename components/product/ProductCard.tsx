@@ -47,23 +47,25 @@ export const ProductCard = ({
     </RevealImage>
 
     <div className="flex flex-1 flex-col p-7">
-      <span className="text-[0.6875rem] tracking-[0.28em] text-bronze-700 uppercase">
-        {product.category}
-      </span>
-
-      <h3 className="mt-3 font-display text-[1.75rem] leading-tight text-ink-900">
+      <h3 className="font-display text-[1.75rem] leading-tight text-ink-900">
         {product.shortName}
       </h3>
 
-      <p className="mt-2.5 text-[0.9375rem] leading-relaxed text-muted-light">
+      {/* mb-6 is the floor under `mt-auto` below, which can otherwise collapse
+          to nothing when a tagline runs long enough to fill the card. */}
+      <p className="mt-2.5 mb-6 text-[0.9375rem] leading-relaxed text-muted-light">
         {product.tagline}
       </p>
 
-      <span className="mt-5 text-[0.8125rem] text-muted-light">
-        {product.grades.length} grades · HS {product.hsCode}
-      </span>
-
-      <span className="mt-6 inline-flex items-center gap-2.5 border-t border-ink-900/12 pt-5 text-[0.6875rem] font-medium tracking-[0.22em] text-ink-900 uppercase">
+      {/*
+        The category chip and the "n grades · HS code" line stood here. Both are
+        gone rather than replaced: everything they carried is on the list of
+        things this site no longer states, and the honest shape of the card is
+        one fewer line, not a substitute label invented to fill the slot. The
+        rule below still separates the copy from the action, so the card keeps
+        its structure — `mt-auto` pins it to the foot whatever the tagline runs to.
+      */}
+      <span className="mt-auto inline-flex items-center gap-2.5 border-t border-ink-900/12 pt-5 text-[0.6875rem] font-medium tracking-[0.22em] text-ink-900 uppercase">
         View Product
         <svg
           width="15"

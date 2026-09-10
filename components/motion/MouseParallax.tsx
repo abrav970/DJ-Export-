@@ -42,6 +42,19 @@ export const MouseParallax = ({
     const calm = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (!fine.matches || calm.matches) return;
 
+    /*
+      The bleed is written to the node rather than held in state.
+
+      React state would be the obvious way to express "the effect bound, so the
+      layer needs its margin" — but setting state from an effect is a re-render
+      to move one element by a fixed number of pixels that never changes again,
+      and the lint rule that rejects it is right to. The markup ships
+      `inset-0`, so the server and the resting client agree; this line only
+      ever adds an inline override on top.
+    */
+    const layer = ref.current;
+    if (layer) layer.style.inset = `${-strength}px`;
+
     const onMove = (event: PointerEvent) => {
       const nx = event.clientX / window.innerWidth - 0.5;
       const ny = event.clientY / window.innerHeight - 0.5;
@@ -50,17 +63,39 @@ export const MouseParallax = ({
     };
 
     window.addEventListener("pointermove", onMove, { passive: true });
-    return () => window.removeEventListener("pointermove", onMove);
+    return () => {
+      window.removeEventListener("pointermove", onMove);
+      if (layer) layer.style.inset = "";
+    };
   }, [strength, x, y]);
 
+  /*
+    A layer that translates inside a fixed frame has to be bigger than the
+    frame by at least its own travel, or it drags its edge into view — and
+    "into view" here means the layer *behind* it, which in the hero is a
+    different photograph. Every other moving layer on the site covers this with
+    an over-scale; this one had nothing, and the bug survived because the only
+    thing behind it used to be a near-black section ground.
+
+    The bleed is `strength` px on all four sides rather than a percentage
+    over-scale, which makes it exact instead of estimated: horizontal travel is
+    `strength` and vertical is `strength * 0.6`, so one inset covers both with
+    room to spare, at any element size, with no crop worth measuring.
+
+    It is applied only while the effect is bound — see the effect above. Under
+    reduced motion or on a touch device nothing moves, so nothing needs
+    covering, and the framing stays pixel-identical to the markup.
+  */
   return (
-    <motion.div
-      ref={ref}
-      data-parallax-layer
-      className={cn("h-full w-full", className)}
-      style={{ x: springX, y: springY }}
-    >
-      {children}
-    </motion.div>
+    <div className={cn("relative h-full w-full overflow-hidden", className)}>
+      <motion.div
+        ref={ref}
+        data-parallax-layer
+        className="absolute inset-0"
+        style={{ x: springX, y: springY }}
+      >
+        {children}
+      </motion.div>
+    </div>
   );
 };

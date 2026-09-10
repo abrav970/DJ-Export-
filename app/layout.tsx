@@ -3,6 +3,7 @@ import { Cormorant_Garamond, Inter } from "next/font/google";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { MotionProvider } from "@/components/motion/MotionProvider";
+import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { company, siteConfig } from "@/data/company";
 import { JsonLd, organizationJsonLd } from "@/lib/seo";
 import "./globals.css";
@@ -102,7 +103,14 @@ export default function RootLayout({
         >
           Skip to content
         </a>
+        {/*
+          Renders nothing. It mounts Lenis and joins it to GSAP's ticker, and it
+          declines to mount at all on a coarse pointer or under reduced motion —
+          see the note in the component.
+        */}
         <MotionProvider>
+          {/* Inside the provider — it reads the reader's motion preference. */}
+          <SmoothScroll />
           <Header />
           <main id="main">{children}</main>
           <Footer />

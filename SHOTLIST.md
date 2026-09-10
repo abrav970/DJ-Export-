@@ -51,12 +51,14 @@ Every image must look like it belongs to the same company:
 | Slot | File | Brief |
 |---|---|---|
 | `hero-export` | `hero-export.jpg` | 16:9 landscape, min 2400px wide. Wide environmental shot of hill estate terraces at first light. Natural low-angle sun, mist in the valleys. **Composition must keep the left third quiet — the headline sits there.** No people, no signage. |
+| `wayanad-hills` | `hero-plantation.jpg` | 3:2 landscape, min 2400px wide. **This is the one frame that should genuinely be Wayanad.** Receding ridge lines with cloud separating the layers, so there is real depth to move the camera through. The upper third carries the headline — keep it quiet and mid-toned. First light or overcast; no people, no built structures, no drone-stock look. Until a genuine frame is supplied the slot runs licensed stock whose location is unrecorded, and its alt text says nothing about where it is. |
 
 ## Sourcing (`/images/sourcing/`)
 
 | Slot | File | Brief |
 |---|---|---|
 | `plantation` | `plantation.jpg` | 3:4 portrait, min 1600px wide. Looking through the shade canopy onto coffee bushes. Dappled natural light, deep greens, no colour grading. Documentary, not staged. |
+| `shade-canopy` | `plantation.jpg` | 2:3 portrait, min 1600px wide. **Should genuinely be Wayanad** — it is the near plane of the origin section, directly under a heading that names the district. Close in under the canopy on a single bush in fruit: the step from landscape to crop. Dappled shade, deep greens, no grading, no styling. Until a genuine frame is supplied the slot runs licensed stock whose location is unrecorded, and its alt text says nothing about where it is. |
 | `pepper-vine` | `pepper-vine.jpg` | 4:5 portrait, min 1600px wide. Pepper spikes on the vine against the support tree, natural shade light. Green berries clearly resolved. |
 | `cardamom-plantation` | `cardamom-plantation.jpg` | 4:5 portrait, min 1600px wide. Cardamom understory beneath heavy shade, cool green light, capsules visible at the base of the plant. |
 | `landscape` | `landscape.jpg` | 3:4 portrait, min 1600px wide. Receding ridge lines with atmospheric haze separating the layers. First light. No people, no built structures. |

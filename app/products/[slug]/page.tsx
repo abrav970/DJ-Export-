@@ -42,8 +42,15 @@ export default async function ProductPage({ params }: PageProps) {
 
   return (
     <>
+      {/*
+        The eyebrow was `${product.category} · India`. It is not replaced with
+        the origin, which was the obvious substitute and the wrong one — the
+        overview card a screen below already states it, and the hero would have
+        been repeating the page's next answer back at itself. "Our range" is
+        what the index calls this set, so the detail page names the same thing.
+      */}
       <PageHero
-        eyebrow={`${product.category} · India`}
+        eyebrow="Our range"
         title={product.name}
         description={product.description}
         slot={product.media.hero}

@@ -4,6 +4,7 @@ import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { ScrollProgress } from "@/components/motion/ScrollProgress";
 import { navigation } from "@/data/company";
 import { easePremium } from "@/lib/motion";
 import { cn } from "@/lib/utils";
@@ -11,12 +12,16 @@ import { Logo } from "./Logo";
 import { MobileMenu } from "./MobileMenu";
 
 /**
- * Sticky header. Transparent over the hero, then a dark glass bar once the page
- * scrolls, losing a little height as it goes.
+ * Sticky header, in two states: nothing at all over the hero, then a near-solid
+ * bar once the page scrolls, losing a little height as it goes.
  *
  * Three links and one CTA. The product dropdown was removed — the products
  * index is one click away and the hover menu was the only piece of state in
  * the header that could trap keyboard focus.
+ *
+ * The bar's bottom edge carries the global scroll progress indicator, which is
+ * the only piece of chrome on the site that reports position. See the note at
+ * the bottom of the header for why it lives there rather than on the page.
  */
 export const Header = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -47,8 +52,25 @@ export const Header = () => {
         data-reveal
         className={cn(
           "fixed inset-x-0 top-0 z-50 transition-[background-color,backdrop-filter,border-color,padding] duration-500 ease-[var(--ease-premium)]",
+          /*
+            Two states, and the scrolled one is a bar rather than a pane of
+            glass.
+
+            It used to be `bg-ink-950/85` behind `backdrop-blur-xl` — a 24px
+            blur under a 15%-transparent ground, which is the glassmorphism the
+            brief rules out and, more to the point, is not reliably readable:
+            the nav sits over the whole page, and at 85% a bright frame (the
+            grading tray, the container door) still lifts the ground far enough
+            to pull the inactive links under 4.5:1.
+
+            92% with a 4px blur is the other trade. The bar is now a bar — the
+            blur is there to stop hard edges of a photograph reading through it,
+            not to be the effect — and the ground barely moves whatever passes
+            underneath, so the link contrast measured on the darkest band holds
+            on the brightest one too.
+          */
           scrolled || menuOpen
-            ? "border-b border-cream-100/8 bg-ink-950/85 py-3 backdrop-blur-xl"
+            ? "border-b border-cream-100/10 bg-ink-950/92 py-3 backdrop-blur-sm"
             : "border-b border-transparent py-5",
         )}
         style={{ ["--header-h" as string]: "5rem" }}
@@ -115,6 +137,24 @@ export const Header = () => {
             </button>
           </div>
         </div>
+        {/*
+          The global progress indicator, sitting on the header's own bottom
+          edge.
+
+          This is the least dominant place it can live and still be legible: it
+          is one device pixel, it is the bronze the rules and eyebrows already
+          use, and it occupies the line the border occupies rather than adding a
+          second horizontal element to the top of the page. Over the hero the
+          header has no border and the bar has no width yet, so the opening
+          screen is untouched — the indicator only appears once there is
+          progress to report.
+
+          It reads the document rather than a section, so it answers "how far
+          through the whole story am I" rather than "how far through this band".
+          That is the question the brief asks it to answer, and it is why it is
+          mounted in the layout rather than on the homepage.
+        */}
+        <ScrollProgress className="absolute inset-x-0 bottom-[-1px]" />
       </motion.header>
 
       <MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} pathname={pathname} />

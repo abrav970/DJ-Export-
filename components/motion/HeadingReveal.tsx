@@ -10,7 +10,14 @@ type HeadingRevealProps = {
   className?: string;
   as?: ElementType;
   delay?: number;
-  /** Words rendered in the bronze accent, matched case-insensitively */
+  /**
+   * Words rendered in the bronze accent, matched case-insensitively and
+   * punctuation-insensitively — so "India" matches "India?".
+   *
+   * One word per entry. Matching is per word, so a multi-word phrase never
+   * matches anything and fails silently; pass `["side", "by"]`, not
+   * `["side by side"]`.
+   */
   accentWords?: string[];
   /**
    * Accent colour for those words. Must follow the band: bronze-500 measures

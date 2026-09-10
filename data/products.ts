@@ -7,10 +7,28 @@
  * IMPORTANT: specification values describe standard Indian trade grades and are
  * indicative. Exact figures are confirmed per lot and per contract; every
  * product page states this next to the specification table.
+ *
+ * ---
+ *
+ * FIELDS KEPT IN THE DATA BUT DELIBERATELY NOT RENDERED.
+ *
+ * `harvest`, `category`, `hsCode` and `packaging` are no longer shown anywhere
+ * a reader can see them, on the client's instruction. They are kept here rather
+ * than deleted because the copy is written, accurate and expected back — losing
+ * it would mean re-authoring it from scratch, and the whole point of the data
+ * layer is that presentation is the cheap thing to change.
+ *
+ * So: nothing in `components/` may read these four again without that being a
+ * decision. To bring one back, add the render site; the content is already
+ * waiting. `category` is the one exception — it still feeds the Product JSON-LD
+ * in lib/seo.tsx, which is machine-readable structured data and not a mention
+ * on the page.
  */
 
 export type MediaSlot =
   | "hero-export"
+  | "wayanad-hills"
+  | "shade-canopy"
   | "plantation"
   | "coffee-cherries"
   | "coffee-beans"
@@ -78,32 +96,36 @@ export const products: Product[] = [
     category: "Coffee",
     tagline: "Robusta and Arabica from shade-grown southern estates",
     description:
-      "Indian Robusta and Arabica in cherry, parchment and plantation preparations — cleaned, graded and screened for roasters and importers.",
+      "Indian Robusta and Arabica, cleaned and prepared for roasters and importers.",
     story: [
       "India's coffee grows under shade, on hill slopes where pepper vines and cardamom often share the same estate. That mixed canopy is part of why Indian Robusta carries the body and low acidity that blenders and espresso roasters look for.",
-      "We supply both Robusta and Arabica, prepared as cherry (natural), parchment (washed) or plantation, and screened to the size the buyer specifies. Samples are shared ahead of confirmation so the cup is agreed before a lot is committed.",
+      "We supply both Robusta and Arabica. Samples are shared ahead of confirmation so the cup is agreed before a lot is committed.",
     ],
-    origin: "Karnataka, Kerala and Tamil Nadu, India",
+    origin: "Wayanad, Kerala, India",
     originNote:
-      "Sourced from the traditional shade-grown coffee districts of southern India.",
+      "Sourced from the shade-grown estates of Wayanad, in the Western Ghats of Kerala.",
     harvest: "Robusta: January – March · Arabica: November – February",
+    /*
+      Screen sizes, moisture and the AB / PB / Plantation designations were
+      removed on the client's instruction — they are being confirmed and will be
+      reinstated here later. Until then this table says only what is settled, so
+      nothing on the page has to be walked back. See the note at the head of the
+      file about the fields this catalogue deliberately no longer renders.
+    */
     specifications: [
-      { label: "Origin", value: "India — southern shade-grown belt" },
+      { label: "Origin", value: "India — Wayanad, Kerala" },
       { label: "Type", value: "Robusta and Arabica" },
-      { label: "Grade", value: "As per buyer requirement — see grades below" },
-      { label: "Screen size", value: "Screen 13 to 18, per grade selected" },
-      { label: "Moisture", value: "Max. 12.5%" },
-      { label: "Processing", value: "Cherry (natural), parchment (washed) or plantation" },
-      { label: "Defects", value: "Cleaned and graded to the agreed count" },
-      { label: "Packaging", value: "60 kg jute bags or as specified" },
+      { label: "Cleaning", value: "Cleaned to the agreed specification" },
     ],
     grades: [
-      { name: "Robusta Cherry AB", detail: "Natural processed, screen 15/16, full body" },
-      { name: "Robusta Cherry PB", detail: "Peaberry selection from natural processed lots" },
-      { name: "Robusta Parchment AB", detail: "Washed preparation, cleaner cup, screen 15/16" },
-      { name: "Arabica Plantation A", detail: "Washed Arabica, screen 17/18" },
-      { name: "Arabica Cherry AB", detail: "Natural processed Arabica, screen 15/16" },
-      { name: "Bulk / blend grades", detail: "Lower screens and mixed lots for volume blending" },
+      {
+        name: "Robusta",
+        detail: "Full body and low acidity — the profile Indian Robusta is bought for.",
+      },
+      {
+        name: "Arabica",
+        detail: "Higher grown, with a lighter body and a more aromatic cup.",
+      },
     ],
     packaging: [
       { format: "60 kg jute bags", detail: "Standard export packing for green coffee" },
@@ -111,8 +133,7 @@ export const products: Product[] = [
       { format: "Buyer-marked packing", detail: "Your marks, labels and lot references applied" },
     ],
     quality: [
-      "Lots selected against the agreed grade, screen and cup profile",
-      "Moisture checked before packing and again before stuffing",
+      "Lots selected against the agreed cup profile",
       "Pre-shipment samples shared for approval",
       "Container inspected and lined where the route requires it",
     ],
@@ -136,18 +157,17 @@ export const products: Product[] = [
       "Black pepper has moved out of India's Malabar coast for centuries, and the vines still climb the same shade trees on the Western Ghats. Bold berries, high density and a sharp, resinous aroma are what set the origin apart.",
       "We supply Tellicherry graded pepper cleaned to an agreed specification, with density, moisture and extraneous matter confirmed lot by lot for food companies, spice processors and distributors.",
     ],
-    origin: "Kerala and Karnataka, India",
+    origin: "Wayanad, Kerala, India",
     originNote:
-      "Sourced from the Malabar and Western Ghats pepper growing districts.",
+      "Sourced from the pepper gardens of Wayanad, in the Malabar region of the Western Ghats.",
     harvest: "December – March",
     specifications: [
-      { label: "Origin", value: "India — Malabar / Western Ghats belt" },
+      { label: "Origin", value: "India — Wayanad, Kerala" },
       { label: "Grade", value: "Tellicherry garbled — see grades below" },
       { label: "Density", value: "530 – 550 g/l, per grade selected" },
       { label: "Moisture", value: "Max. 12%" },
       { label: "Extraneous matter", value: "Cleaned to the agreed maximum" },
       { label: "Light berries", value: "Limited per grade specification" },
-      { label: "Packaging", value: "25 kg / 50 kg food-grade bags" },
     ],
     /*
       CONFIRM: the detail lines below decode only what each designation itself
@@ -169,9 +189,8 @@ export const products: Product[] = [
     ],
     quality: [
       "Machine cleaned, de-stoned, gravity separated and garbled",
-      "Density and moisture verified before packing",
+      "Density and moisture verified against the agreed specification",
       "Samples drawn for buyer approval prior to shipment",
-      "Packed in food-grade material suited to the transit route",
     ],
     hsCode: "0904",
     media: {
@@ -186,25 +205,24 @@ export const products: Product[] = [
     shortName: "Cardamom",
     slug: "cardamom",
     category: "Spices",
-    tagline: "Green cardamom from high-altitude Idukki plantations",
+    tagline: "Green cardamom from high-altitude Wayanad plantations",
     description:
       "Bold green cardamom capsules graded by size and colour, dried and packed to hold aroma through the voyage.",
     story: [
-      "Small cardamom grows high in the Cardamom Hills, where cool nights and heavy shade let the capsules fill slowly. Size, colour and aroma are the three things buyers judge, and all three depend on how carefully the crop is picked and dried.",
-      "We supply green cardamom graded by capsule size, dried to a controlled moisture and packed to protect the volatile oil that carries the aroma. Vacuum packing is available for longer voyages and retail-bound lots.",
+      "Small cardamom grows high in the Western Ghats, where cool nights and heavy shade let the capsules fill slowly. Size, colour and aroma are the three things buyers judge, and all three depend on how carefully the crop is picked and dried.",
+      "We supply green cardamom graded by capsule size and dried to a controlled moisture, so the volatile oil that carries the aroma survives the voyage.",
     ],
-    origin: "Idukki, Kerala and the Cardamom Hills, India",
+    origin: "Wayanad, Kerala, India",
     originNote:
-      "Sourced from high-altitude plantations in the Western Ghats cardamom belt.",
+      "Sourced from high-altitude plantations in Wayanad, in the Western Ghats of Kerala.",
     harvest: "August – February",
     specifications: [
-      { label: "Origin", value: "India — Idukki / Cardamom Hills" },
+      { label: "Origin", value: "India — Wayanad, Kerala" },
       { label: "Grade", value: "Bold green capsules — see grades below" },
       { label: "Size", value: "6 mm to 8 mm+, per grade selected" },
       { label: "Colour", value: "Natural green, dried without bleaching" },
       { label: "Moisture", value: "Max. 12%" },
       { label: "Volatile oil", value: "Confirmed per lot on request" },
-      { label: "Packaging", value: "5 kg / 10 kg vacuum or laminated packing" },
     ],
     grades: [
       { name: "8 mm bold green", detail: "Largest capsules, premium presentation" },
@@ -220,8 +238,7 @@ export const products: Product[] = [
     quality: [
       "Graded by capsule size on calibrated screens",
       "Dried under controlled conditions to protect colour and aroma",
-      "Moisture verified before packing",
-      "Vacuum or lined packing selected for the destination and transit time",
+      "Moisture verified against the agreed specification",
     ],
     hsCode: "0908",
     media: {
@@ -238,6 +255,19 @@ export const getProductBySlug = (slug: string): Product | undefined =>
 
 export const getRelatedProducts = (slug: string): Product[] =>
   products.filter((product) => product.slug !== slug);
+
+/**
+ * The order the range is *told* in, which is not the order it is catalogued in.
+ *
+ * `products` is coffee-first and drives /products, related products and the
+ * Product JSON-LD, so reordering it to suit a narrative would reorder all of
+ * those too. The homepage sequence and the specification comparison both read
+ * from here instead, so the two always agree about which commodity comes
+ * first — they used to hold separate copies of the same list.
+ */
+export const narrativeOrder: Product[] = ["black-pepper", "coffee", "cardamom"]
+  .map(getProductBySlug)
+  .filter((product): product is Product => Boolean(product));
 
 /** Options used by the enquiry form's product dropdown. */
 export const productOptions = products.map((product) => ({

@@ -32,8 +32,53 @@ type HeadlineRevealProps = {
 
 const SWEEP_SPAN = 0.62; // portion of the scroll window spent staggering
 const CHAR_WINDOW = 0.3; // how long a single character takes to resolve
-const DIMMED = 0.24;
 
+/**
+ * The floor of the sweep — and the reason this file has a contrast note.
+ *
+ * This was 0.24, which is a fine number for a decorative shimmer and a bad one
+ * for the only <h1> on the page. Because `trigger="mount"` binds the sweep to
+ * the document's own scroll from 0 to 35vh, the headline is at the floor
+ * *exactly when the page loads* and only reaches full strength once the reader
+ * has scrolled it half off the screen. The dimmest frame is the first
+ * impression, which is backwards.
+ *
+ * Measured on /products at scroll 0, composited over the actual photograph and
+ * both hero scrims: cream-50 at 0.24 lands on rgb(78,85,76) for a contrast
+ * ratio between 1.40:1 and 2.01:1. AA wants 3:1 for text this size. A 60px
+ * heading was failing the large-text threshold by half.
+ *
+ * 0.72 is the floor that keeps the worst character above 7:1 on the darkened
+ * plate (see the gradient note in PageHero, which was re-measured with it).
+ * The sweep survives: 0.72 → 1.0 is a ~23-point travel in L*, which on cream
+ * over deep forest still reads as a brightness wave crossing the line. What
+ * does not survive is the state where the headline was not there at all.
+ */
+const DIMMED = 0.72;
+
+/**
+ * The accent needs its own floor, and the reason is arithmetic rather than
+ * taste: one opacity applied to two colours does not buy the same legibility
+ * twice. Fading toward the backdrop costs a dark colour proportionally more of
+ * its remaining contrast than a light one, so the gold reached 4.05:1 at the
+ * same 0.72 that put the ivory at 7.7:1 — the emphasis word was the least
+ * readable thing in the sentence it was there to emphasise.
+ *
+ * 0.86 lands bronze-400 at 5.43:1, clear of the 4.5:1 AAA threshold for text
+ * this size. The shorter travel is not a compromise: the two floors are picked
+ * so both colours move by a *similar perceived* amount, which is what makes the
+ * sweep cross an accented headline evenly instead of visibly stalling on the
+ * italic word.
+ */
+const DIMMED_ACCENT = 0.86;
+
+/**
+ * bronze-400 rather than bronze-500 for the accent. The accent is the one part
+ * of the headline allowed to sit below the ivory, but 500 (#b08f4e) measured
+ * 5.2:1 — *darker than the eyebrow above it* at 9.4:1 — which inverted the
+ * hierarchy inside the title itself. 400 (#c5a86a) measures 7.2:1: still
+ * unmistakably gold against the cream, still clearly subordinate to it.
+ */
 const SweepChar = ({
   char,
   progress,
@@ -48,7 +93,7 @@ const SweepChar = ({
   const opacity = useTransform(
     progress,
     [start, Math.min(start + CHAR_WINDOW, 1)],
-    [DIMMED, 1],
+    [isAccent ? DIMMED_ACCENT : DIMMED, 1],
   );
 
   return (
@@ -56,7 +101,7 @@ const SweepChar = ({
       data-sweep-char
       aria-hidden="true"
       style={{ opacity }}
-      className={cn("inline-block", isAccent && "text-bronze-500 italic")}
+      className={cn("inline-block", isAccent && "text-bronze-400 italic")}
     >
       {char === " " ? " " : char}
     </motion.span>
