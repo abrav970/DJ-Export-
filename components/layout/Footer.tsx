@@ -71,6 +71,8 @@ export const Footer = () => (
               </a>
             </li>
             <li className="pt-1 leading-relaxed text-muted-dark">
+              {company.contact.address.line1}
+              <br />
               {company.contact.address.line2}, {company.contact.address.country}
             </li>
           </ul>
