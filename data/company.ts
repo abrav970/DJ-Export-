@@ -121,11 +121,11 @@ export const company = {
 
   contact: {
     // PLACEHOLDER — replace with the live business details
-    email: "exports@djexport.example",
-    phone: "+91 00000 00000",
-    whatsapp: "+91 00000 00000",
+    email: "connect.djexport@gmail.com",
+    phone: "+91 85905 14834",
+    whatsapp: "+91 85905 14834",
     /** Digits only, used to build the wa.me link */
-    whatsappNumber: "910000000000",
+    whatsappNumber: "918590514834",
     address: {
       line1: "Registered office address",
       line2: "City, State",
