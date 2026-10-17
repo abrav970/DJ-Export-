@@ -55,7 +55,7 @@ export const Footer = () => (
             <li>
               <a
                 href={`tel:${company.contact.phone.replace(/\s/g, "")}`}
-                className="transition-colors hover:text-bronze-300"
+                className="tracking-[0.04em] tabular-nums lining-nums transition-colors hover:text-bronze-300"
               >
                 {company.contact.phone}
               </a>

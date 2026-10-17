@@ -86,10 +86,12 @@ export const MotionProvider = ({ children }: { children: ReactNode }) => {
 
     const readStored = () => {
       try {
-        return window.localStorage.getItem(STORAGE_KEY) === "full";
+        // Full motion is the default for everyone; only an explicit "system"
+        // choice (made through <MotionToggle>) defers to the OS preference.
+        return window.localStorage.getItem(STORAGE_KEY) !== "system";
       } catch {
-        // Private mode, or storage disabled. The default is the safe one.
-        return false;
+        // Private mode, or storage disabled — fall back to the default.
+        return true;
       }
     };
 

@@ -81,7 +81,7 @@ import { parallax } from "@/lib/motion";
 export const Origin = () => (
   <section
     id="origin"
-    className="relative overflow-hidden bg-[linear-gradient(to_bottom,#1f1913_0%,#10231b_18%,#10231b_74%,#2b2111_100%)]"
+    className="relative overflow-hidden bg-[linear-gradient(to_bottom,#1f1913_0%,#10231b_18%,#10231b_100%)]"
   >
     {/*
       Air. Two fields, one cool and high on the left, one warm and low on the
@@ -94,7 +94,7 @@ export const Origin = () => (
       className="pointer-events-none absolute inset-0"
       style={{
         backgroundImage:
-          "radial-gradient(70% 46% at 12% 18%, rgba(110,132,98,0.20) 0%, rgba(110,132,98,0) 68%), radial-gradient(64% 44% at 88% 82%, rgba(43,33,17,0.55) 0%, rgba(43,33,17,0) 66%)",
+          "radial-gradient(70% 46% at 12% 18%, rgba(110,132,98,0.20) 0%, rgba(110,132,98,0) 68%)",
       }}
     />
 
