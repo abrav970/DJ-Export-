@@ -1,4 +1,7 @@
 import { NextResponse } from "next/server";
+import nodemailer from "nodemailer";
+
+export const runtime = "nodejs";
 
 /**
  * Quotation enquiry endpoint.
@@ -32,6 +35,40 @@ const required: (keyof QuotePayload)[] = [
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
+const escapeHtml = (value: string) =>
+  value.replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
+
+/** Sends the enquiry by SMTP. Returns false when SMTP is not configured. */
+async function sendEmail(enquiry: Record<string, unknown>): Promise<boolean> {
+  const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, QUOTE_NOTIFICATION_EMAIL } =
+    process.env;
+  if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS || !QUOTE_NOTIFICATION_EMAIL) return false;
+
+  const port = Number(SMTP_PORT) || 465;
+  const transporter = nodemailer.createTransport({
+    host: SMTP_HOST,
+    port,
+    secure: port === 465,
+    auth: { user: SMTP_USER, pass: SMTP_PASS },
+  });
+
+  const rows = Object.entries(enquiry)
+    .filter(([, v]) => String(v ?? "").trim())
+    .map(([k, v]) => `${k}: ${String(v)}`);
+
+  const body = rows.join("\n");
+
+  await transporter.sendMail({
+    from: `"DJ Export website" <${SMTP_USER}>`,
+    to: QUOTE_NOTIFICATION_EMAIL,
+    replyTo: String(enquiry.email),
+    subject: `New quote enquiry — ${String(enquiry.product)} from ${String(enquiry.companyName)}`,
+    text: body,
+    html: `<pre style="font:14px/1.6 sans-serif">${escapeHtml(body)}</pre>`,
+  });
+  return true;
+}
+
 export async function POST(request: Request) {
   let payload: Partial<QuotePayload>;
 
@@ -58,6 +95,14 @@ export async function POST(request: Request) {
     ...payload,
   };
 
+  let emailed = false;
+  try {
+    emailed = await sendEmail(enquiry);
+  } catch (error) {
+    console.error("[quote] email delivery failed", error);
+    return NextResponse.json({ error: "Enquiry could not be delivered." }, { status: 502 });
+  }
+
   // Forward to a webhook when one is configured (CRM, automation, inbox rule).
   const webhook = process.env.QUOTE_WEBHOOK_URL;
   if (webhook) {
@@ -74,7 +119,7 @@ export async function POST(request: Request) {
         { status: 502 },
       );
     }
-  } else {
+  } else if (!emailed) {
     // No delivery channel configured yet — keep a server-side record.
     console.info("[quote] enquiry received", enquiry);
   }

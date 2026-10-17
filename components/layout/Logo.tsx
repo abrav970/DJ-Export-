@@ -65,7 +65,7 @@ export const LogoMark = ({ className }: { className?: string }) => (
     alt=""
     width={505}
     height={498}
-    className={cn("block h-auto w-full shrink-0", className)}
+    className={cn("block shrink-0", className)}
   />
 );
 
@@ -81,7 +81,7 @@ export const Logo = ({
     aria-label={`${company.name} — home`}
     className={cn("group flex items-center gap-3", className)}
   >
-    <LogoMark className="h-9 w-9 sm:h-10 sm:w-10" />
+    <LogoMark className="h-9 w-9 object-contain sm:h-10 sm:w-10" />
     <span className="flex flex-col leading-none">
       <span className="font-display text-[1.05rem] tracking-[0.2em] text-cream-100 transition-colors duration-500 group-hover:text-bronze-200 sm:text-[1.3rem] sm:tracking-[0.24em]">
         DJ EXPORT

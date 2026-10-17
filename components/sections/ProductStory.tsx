@@ -1,5 +1,4 @@
 import { Media } from "@/components/media/Media";
-import { BandTransition } from "@/components/motion/BandTransition";
 import { HeadingReveal } from "@/components/motion/HeadingReveal";
 import { LabelReveal } from "@/components/motion/LabelReveal";
 import { LinesReveal } from "@/components/motion/LinesReveal";
@@ -63,15 +62,7 @@ export const ProductStory = () => (
     /* Ivory, travelling to sand so the journey below is met halfway. */
     className="relative bg-[linear-gradient(to_bottom,#f3efe5_0%,#f3efe5_72%,#e6ddcb_100%)]"
   >
-    {/*
-      The forest → ivory transition. These stops originated here and now live in
-      <BandTransition>, together with the three rules that produced them, so
-      every other boundary on the page can be built the same way rather than
-      re-deriving them. Same seven stops, same 8rem, same output.
-    */}
-    <BandTransition />
-
-    <div className="container-x pt-14 pb-[var(--spacing-section-tight)]">
+    <div className="container-x pt-[var(--spacing-section)] pb-[var(--spacing-section-tight)]">
       <div className="max-w-3xl">
         <LabelReveal>The range</LabelReveal>
         <HeadingReveal

@@ -34,14 +34,20 @@ import { cn } from "@/lib/utils";
  */
 
 export const bandRamps = {
-  /** Warm dark ground → the ivory product band. Seven stops, measured. */
+  /**
+   * Warm dark ground → the ivory product band. Seven stops; the end stops are
+   * measured against the neighbouring sections and must not move. The middle
+   * stops are deliberately desaturated olive → greige: the earlier
+   * `#7b8f63` / `#b0b487` pair was a saturated yellow-green that read as a
+   * lime glow across the seam.
+   */
   forestToIvory: [
     "#2b2111 0%",
-    "#2c3a27 20%",
-    "#47603f 42%",
-    "#7b8f63 62%",
-    "#b0b487 78%",
-    "#dbd7c6 91%",
+    "#2f3022 22%",
+    "#4a4d38 42%",
+    "#7d7e63 60%",
+    "#b3b093 78%",
+    "#d9d3bd 92%",
     "#f3efe5 100%",
   ],
 } as const;
@@ -49,13 +55,13 @@ export const bandRamps = {
 type BandTransitionProps = {
   /** Colour stops, light-side last. Defaults to the measured hero→ivory ramp. */
   stops?: readonly string[];
-  /** Fixed height. A real distance, never a percentage — see rule 2 above. */
+  /** Fixed height (the default overlaps the section above by 1px to hide the subpixel seam). A real distance, never a percentage — see rule 2 above. */
   className?: string;
 };
 
 export const BandTransition = ({
   stops = bandRamps.forestToIvory,
-  className = "h-32",
+  className = "-mt-px h-24",
 }: BandTransitionProps) => (
   <div
     aria-hidden="true"

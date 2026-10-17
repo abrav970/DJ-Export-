@@ -396,7 +396,7 @@ export const Hero = ({ media, hills }: HeroProps) => {
               29px per line, and stacking these would put the block through the
               pepper bowl's rim at every viewport under 800px tall.
             */}
-            <div className="mt-[clamp(1rem,1.6vw,2rem)] flex max-w-[min(58rem,76vw)] flex-col gap-5 sm:flex-row sm:items-end sm:justify-between sm:gap-10">
+            <div className="mt-[clamp(1rem,1.6vw,2rem)] flex max-w-none flex-col sm:max-w-[min(58rem,76vw)] gap-5 sm:flex-row sm:items-end sm:justify-between sm:gap-10">
               {/*
                 Opaque cream-200, not `.text-muted-dark`.
 
@@ -411,7 +411,7 @@ export const Hero = ({ media, hills }: HeroProps) => {
               */}
               <motion.p
                 data-reveal
-                className="max-w-[min(27rem,36vw)] text-[clamp(0.9375rem,1.1vw,1.1875rem)] leading-[1.65] text-cream-200"
+                className="max-w-none sm:max-w-[min(27rem,36vw)] text-[clamp(0.9375rem,1.1vw,1.1875rem)] leading-[1.65] text-cream-200"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.9, ease: easePremium, delay: 1.14 }}

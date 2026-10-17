@@ -26,11 +26,13 @@ const channels = [
     label: "WhatsApp",
     value: company.contact.whatsapp,
     href: whatsappLink(company.contact.whatsappNumber),
+    numeric: true,
   },
   {
     label: "Telephone",
     value: company.contact.phone,
     href: `tel:${company.contact.phone.replace(/\s/g, "")}`,
+    numeric: true,
   },
 ];
 
@@ -77,7 +79,11 @@ export default function ContactPage() {
                       href={channel.href}
                       target={channel.href.startsWith("http") ? "_blank" : undefined}
                       rel={channel.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                      className="mt-2 block font-display text-[1.5rem] leading-snug text-ink-900 transition-colors hover:text-bronze-700"
+                      className={
+                        "numeric" in channel && channel.numeric
+                          ? "mt-2 block font-sans text-[1.25rem] leading-snug font-normal tracking-[0.04em] text-ink-900 tabular-nums lining-nums transition-colors hover:text-bronze-700"
+                          : "mt-2 block font-display text-[1.5rem] leading-snug text-ink-900 transition-colors hover:text-bronze-700"
+                      }
                     >
                       {channel.value}
                     </a>
