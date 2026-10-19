@@ -99,7 +99,7 @@ export default function ContactPage() {
                   <span className="mt-3 block">
                     {company.contact.address.line1}
                     <br />
-                    {company.contact.address.line2} — {company.contact.address.postalCode}
+                    {company.contact.address.line2} {company.contact.address.postalCode}
                     <br />
                     {company.contact.address.country}
                   </span>

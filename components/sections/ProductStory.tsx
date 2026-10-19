@@ -60,7 +60,7 @@ export const ProductStory = () => (
   <section
     id="products"
     /* Ivory, travelling to sand so the journey below is met halfway. */
-    className="relative bg-[linear-gradient(to_bottom,#f3efe5_0%,#f3efe5_72%,#e6ddcb_100%)]"
+    className="relative bg-[linear-gradient(to_bottom,#ece5d2_0%,#ece5d2_72%,#e6ddcb_100%)]"
   >
     <div className="container-x pt-[var(--spacing-section)] pb-[var(--spacing-section-tight)]">
       <div className="max-w-3xl">

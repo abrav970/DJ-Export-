@@ -48,7 +48,7 @@ export const bandRamps = {
     "#7d7e63 60%",
     "#b3b093 78%",
     "#d9d3bd 92%",
-    "#f3efe5 100%",
+    "#ece5d2 100%",
   ],
 } as const;
 
