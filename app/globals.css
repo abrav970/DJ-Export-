@@ -39,7 +39,7 @@
   --color-olive-200: #d2d3b6;
 
   /* Warm ivory → soft sand. The light end. */
-  --color-cream-50: #f3efe5;
+  --color-cream-50: #ece5d2;
   --color-cream-100: #e6ddcb;
   --color-cream-200: #ded4bf;
   --color-cream-300: #c9bc9f;
@@ -143,8 +143,8 @@
     section identical weight. Editorial bands use --spacing-section;
     connective bands (trust strip, CTA) use the tight step.
   */
-  --spacing-section: 5.5rem;
-  --spacing-section-tight: 4rem;
+  --spacing-section: 4.5rem;
+  --spacing-section-tight: 3.25rem;
 
   --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
 

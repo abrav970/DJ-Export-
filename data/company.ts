@@ -127,10 +127,10 @@ export const company = {
     /** Digits only, used to build the wa.me link */
     whatsappNumber: "918590514834",
     address: {
-      line1: "P28F+RPP, Cheriyamkolly",
-      line2: "Keralam 670645",
+      line1: "Kazhukalody",
+      line2: "Wayanad, Keralam",
       country: "India",
-      postalCode: "670645",
+      postalCode: "670721",
     },
     officeHours: "Monday – Saturday, 09:30 – 18:30 IST",
   },

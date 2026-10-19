@@ -83,7 +83,7 @@ export const media: Record<MediaSlot, MediaEntry> = {
     spec: "16:9, min 2000px. Drying beds or mats, hard daylight, hands welcome, faces not required.",
   },
   "pepper-vine": {
-    src: "/images/sourcing/pepper-plantation.jpg",
+    src: "/images/sourcing/pepper-plantation.jpeg",
     alt: "Pepper spikes held at the vine, berries turning from green to red",
     spec: "4:5 portrait, min 1600px. Pepper on the vine against its support tree, natural shade light.",
   },
@@ -93,7 +93,7 @@ export const media: Record<MediaSlot, MediaEntry> = {
     spec: "4:3, min 1600px. Macro of dried peppercorns, side light so the surface reads. Dark ground, no props.",
   },
   "cardamom-plantation": {
-    src: "/images/sourcing/cardamom-plantation.jpg",
+    src: "/images/sourcing/cardamom_plantation.jpeg",
     // The location came out of the alt text when the catalogue moved to
     // Wayanad. Pexels records this frame as Idukki and CREDITS.md still says
     // so — that is the provenance record and it stays accurate — but the

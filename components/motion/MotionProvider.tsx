@@ -84,16 +84,9 @@ export const MotionProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const query = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-    const readStored = () => {
-      try {
-        // Full motion is the default for everyone; only an explicit "system"
-        // choice (made through <MotionToggle>) defers to the OS preference.
-        return window.localStorage.getItem(STORAGE_KEY) !== "system";
-      } catch {
-        // Private mode, or storage disabled — fall back to the default.
-        return true;
-      }
-    };
+    // Full motion for every visitor; there is no opt-out control any more, so a
+    // "system" value stored by the old footer toggle is ignored.
+    const readStored = () => true;
 
     // Both values are read through one function so neither is set directly in
     // the effect body — `react-hooks/set-state-in-effect` flags that, and it is
