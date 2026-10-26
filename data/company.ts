@@ -141,7 +141,7 @@ export const company = {
 } as const;
 
 export const siteConfig = {
-  url: process.env.NEXT_PUBLIC_WEBSITE_URL ?? "https://www.djexport.example",
+  url: process.env.NEXT_WEBSITE_URL ?? "https://www.djexport.example",
   title: "DJ Export — Indian Coffee, Black Pepper & Cardamom Exporter",
   description: company.shortDescription,
   locale: "en_IN",
