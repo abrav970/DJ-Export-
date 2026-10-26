@@ -143,7 +143,7 @@ keywords, OpenGraph, Twitter card, robots directives and icons. Every route
 declares its own `metadata` / `generateMetadata` with a canonical `alternates`.
 `app/sitemap.ts` and `app/robots.ts` derive from the same data.
 
-All of it flows from `siteConfig.url`, which reads `NEXT_PUBLIC_WEBSITE_URL` — so
+All of it flows from `siteConfig.url`, which reads `NEXT_WEBSITE_URL` — so
 a wrong env value silently poisons every absolute URL.
 
 ### 1.8 Reusable utilities
@@ -160,7 +160,7 @@ a wrong env value silently poisons every absolute URL.
 
 There is **no CI configuration, no `vercel.json`, no Dockerfile, no deployment
 manifest of any kind.** `.env.example` declares
-`QUOTE_NOTIFICATION_EMAIL`, `QUOTE_WEBHOOK_URL`, `NEXT_PUBLIC_WEBSITE_URL`.
+`QUOTE_NOTIFICATION_EMAIL`, `QUOTE_WEBHOOK_URL`, `NEXT_WEBSITE_URL`.
 
 ### 1.10 `CLAUDE.md` is stale
 
@@ -714,4 +714,4 @@ WebGL idea worth revisiting if the question reopens.
 1. **A genuine Wayanad landscape photograph.** Only `process/harvest.jpg` is verifiably Wayanad. Until one is supplied, the `wayanad-origin` slot falls back to `PlaceholderPlate` and alt text stays region-neutral.
 2. **Provenance of the four in-use client PNGs**, two of which are on the LCP path. `CREDITS.md` flags that if any was generated rather than photographed, that should be settled deliberately.
 3. **The `PLACEHOLDER` values** in `data/company.ts` — email, phone, WhatsApp, address, founded year, FSSAI and IEC references, socials. Unset on purpose; still unset.
-4. **`NEXT_PUBLIC_WEBSITE_URL`** for the production domain, since every canonical, OG and JSON-LD URL derives from it.
+4. **`NEXT_WEBSITE_URL`** for the production domain, since every canonical, OG and JSON-LD URL derives from it.
