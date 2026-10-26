@@ -14,7 +14,7 @@ npm run typecheck  # tsc --noEmit
 
 There is no test suite. `npm run typecheck && npm run build` is the verification gate.
 
-Env: copy `.env.example` to `.env.local`. `NEXT_PUBLIC_SITE_URL` feeds `siteConfig.url`, which drives canonical URLs, `metadataBase`, sitemap and JSON-LD, so a wrong value silently poisons every absolute URL.
+Env: copy `.env.example` to `.env.local`. `NEXT_PUBLIC_WEBSITE_URL` feeds `siteConfig.url`, which drives canonical URLs, `metadataBase`, sitemap and JSON-LD, so a wrong value silently poisons every absolute URL.
 
 ## Stack
 
